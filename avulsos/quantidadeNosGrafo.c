@@ -9,6 +9,10 @@ int main(int argc, char* argv[]){
 		printf("Erro! Execute como '$ ./quantidadeNosGrafo op'\n");
 	}else{
 		op = atoi(argv[1]);
+		if(op < 1){
+			printf("Erro! Forneca um valor maior que 0\n");
+			exit(1);
+		}
 
 		if(op == 1){
 			printf("Sequência de pontos: %d\n", deposito); 
