@@ -1,18 +1,15 @@
-//Código que gera grafos de tamnhos aleatórios com sintaxe adequada
+//Código que gera grafos de tamanhos aleatórios com sintaxe adequada
 #include <stdio.h>
 #include <time.h>
 #include <stdlib.h>
 
 int main(){
-	int num;
-
 	srand(time(NULL)); //Gera números aleatórios com base no timer da máquina
-	
-	for(int i=0; i<10; i++){
-		num = rand() % 100;
-		printf("%d  ", num);
-	}
-	printf("\n");
+	int aux = rand() % 100; //O valor de 100 pode ser mudado a depender do tamanho do grafo desejado
 
+	for(int i=1; i<=aux; i++){
+		printf("'x%d': []\n", i);
+	}
+	
 	return 0;
 }
