@@ -6,10 +6,10 @@
 int main(){
 	int num;
 
-	srand(time(NULL));
+	srand(time(NULL)); //Gera números aleatórios com base no timer da máquina
 	
 	for(int i=0; i<10; i++){
-		num = rand();
+		num = rand() % 100;
 		printf("%d  ", num);
 	}
 	printf("\n");
