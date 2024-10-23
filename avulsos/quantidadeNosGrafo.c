@@ -1,4 +1,4 @@
-//Código que gera a sequência da quantidade crescente dos nós em um grafo e armazena em um arquivo
+//Código que gera a sequência da quantidade crescente dos nós em um grafo, armazena em um arquivo e exibe um gráfico
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -42,7 +42,7 @@ int main(int argc, char* argv[]){
 			fprintf(gnuplot, "set ylabel 'Quantidade de pontos'\n");
 			fprintf(gnuplot, "set title 'Análise da quantidade crescente de pontos em um grafo triangular'\n");
 			fprintf(gnuplot, "set key top left\n");
-			fprintf(gnuplot, "plot 'arquivoGrafos.txt' using 1:2  with lp pt 7 lc rgb 'red' title 'Quant pontos'\n");
+			fprintf(gnuplot, "plot 'arquivoGrafos.txt' using 1:2 with boxes title 'Quant pontos'\n");
 	       }
 	}
 	fclose(arquivo);
