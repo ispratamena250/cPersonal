@@ -3,7 +3,7 @@
 #include <stdlib.h>
 int main(){	
 	srand(time(NULL));
-	int vetor[5], aux;
+	int vetor[5], aux, aux2;
 	
 	for(int i=0; i<=5; i++){
 		vetor[i] = rand() % 100;
@@ -21,6 +21,15 @@ int main(){
 		}
 	}
 	printf("Menor: %d\n", aux);
+
+	for(int i=0; i<=5; i++){
+		if(i == 0){
+			aux2 = vetor[0];
+		}else if(aux2 < vetor[i]){
+			aux2 = vetor[i];
+		}
+	}
+	printf("Maior: %d\n", aux2);
 
 	return 0;
 }
