@@ -27,7 +27,7 @@ int main(int argc, char *argv[]){
 	for(int i=0; i<mod; i++){
 		printf("\n");
 		for(int j=0; j<mod; j++){
-			printf("%i\t", classe[j][i]);
+			printf("%i\t", classe[j][i]); //É APENAS UMA MATRIZ TRANSPOSTA!!!!!!!
 		}
 	}
 	printf("\n");
