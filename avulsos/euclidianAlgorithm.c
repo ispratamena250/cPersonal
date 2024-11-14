@@ -1,4 +1,6 @@
-//C program to implement the Euclidian Algorithm to find the greatest commum divisor between tow natural numbers
+/*
+ * C program to implement the Euclidian Algorithm to find the greatest commum divisor between tow natural numbers
+ * */
 #include <stdio.h>
 
 int main(){	
