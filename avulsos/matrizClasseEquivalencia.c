@@ -9,25 +9,30 @@
 #include <stdlib.h>
 
 int main(int argc, char *argv[]){
-	int mod, count=0;
+	int mod;
 
 	if(argc != 2){
 		printf("Erro! Execute como: $./matrizClasseEquivalencia mod\n");
 		exit(1);
 	}
 	mod = atoi(argv[1]);
-	int classe[mod][mod];
+	int count = (-3)*mod;
+	int classe[mod][mod+8];
 
-	for(int i=0; i<mod; i++){
+	for(int i=0; i<mod+8; i++){
 		for(int j=0; j<mod; j++){
-			classe[i][j] = count;
+			classe[j][i] = count;
 			count++;
 		}
 	}
 	for(int i=0; i<mod; i++){
-		printf("\n");
-		for(int j=0; j<mod; j++){
-			printf("%i\t", classe[j][i]); //É APENAS UMA MATRIZ TRANSPOSTA!!!!!!!
+		printf("\n[... ");
+		for(int j=0; j<mod+8; j++){
+			if(j==mod+7){
+				printf("%d ...]", classe[i][j]);
+			}else{
+				printf("%d\t", classe[i][j]); //É APENAS UMA MATRIZ TRANSPOSTA!!!!!!!
+			}
 		}
 	}
 	printf("\n");
