@@ -9,16 +9,11 @@ int main(){
 	char s1[100], s2[100];
 
 	fgets(s1, sizeof(s1), stdin);
+	//s1[strcspn(s1, "\n")] = '\0'; //Remove o \n
 	fgets(s2, sizeof(s2), stdin);
+	//s2[strcspn(s2, "\n")] = '\0'; //Remove o \n
 
-	/*for(int i=0; i<strlen(s1); i++){
-		printf("%c ", s1[i]);
-	}
-	printf("\n");
-	for(int i=0; i<strlen(s2); i++){
-		printf("%c ", s2[i]);
-	}*/
-		
+	
 
 	return 0;
 }
