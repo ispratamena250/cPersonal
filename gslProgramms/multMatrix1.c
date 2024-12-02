@@ -1,3 +1,9 @@
+/*
+ * Programa que usa a biblioteca GSL para multiplicar duas matrizes
+ * Para compilar: $ gcc -Wall multMatrix1.c -o multMatrix1 -lgsl -lgslcblas -lm
+ * Para rodar: $ ./multMatrix1
+ * */
+
 #include <stdio.h>
 #include <gsl/gsl_matrix.h>
 
@@ -7,15 +13,15 @@ int main() {
     gsl_matrix *b = gsl_matrix_alloc(2, 2);
 
     // Preenche as matrizes com valores
-    gsl_matrix_set(a, 0, 0, 1.0);
-    gsl_matrix_set(a, 0, 1, 2.0);
-    gsl_matrix_set(a, 1, 0, 3.0);
-    gsl_matrix_set(a, 1, 1, 4.0);
+    gsl_matrix_set(a, 0, 0, 2);
+    gsl_matrix_set(a, 0, 1, 0);
+    gsl_matrix_set(a, 1, 0, 2);
+    gsl_matrix_set(a, 1, 1, 1);
 
-    gsl_matrix_set(b, 0, 0, 5.0);
-    gsl_matrix_set(b, 0, 1, 6.0);
-    gsl_matrix_set(b, 1, 0, 7.0);
-    gsl_matrix_set(b, 1, 1, 8.0);
+    gsl_matrix_set(b, 0, 0, 1);
+    gsl_matrix_set(b, 0, 1, 0);
+    gsl_matrix_set(b, 1, 0, 1);
+    gsl_matrix_set(b, 1, 1, 0.5);
 
     // Realiza a multiplicação elemento por elemento
     gsl_matrix_mul_elements(a, b);
