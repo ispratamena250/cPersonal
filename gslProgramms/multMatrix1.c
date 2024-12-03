@@ -13,21 +13,35 @@ int main() {
     gsl_matrix *b = gsl_matrix_alloc(2, 2);
 
     // Preenche as matrizes com valores
-    gsl_matrix_set(a, 0, 0, 2);
-    gsl_matrix_set(a, 0, 1, 0);
-    gsl_matrix_set(a, 1, 0, 2);
-    gsl_matrix_set(a, 1, 1, 1);
+    gsl_matrix_set(a, 0, 0, 0.0);
+    gsl_matrix_set(a, 0, 1, -1.0);
+    gsl_matrix_set(a, 1, 0, 1.0);
+    gsl_matrix_set(a, 1, 1, 0.0);
 
-    gsl_matrix_set(b, 0, 0, 1);
-    gsl_matrix_set(b, 0, 1, 0);
-    gsl_matrix_set(b, 1, 0, 1);
-    gsl_matrix_set(b, 1, 1, 0.5);
+    gsl_matrix_set(b, 0, 0, -1.0);
+    gsl_matrix_set(b, 0, 1, 0.0);
+    gsl_matrix_set(b, 1, 0, 0.0);
+    gsl_matrix_set(b, 1, 1, -1.0);
+
+	for(size_t i=0; i<2; i++){
+		for(size_t j=0; j<2; j++){
+			printf("%g ", gsl_matrix_get(a, i, j));
+		}
+		printf("\n");
+	}
+	printf("\n");
+	for(size_t i=0; i<2; i++){
+		for(size_t j=0; j<2; j++){
+			printf("%g ", gsl_matrix_get(b, i, j));
+		}
+		printf("\n");
+	}
 
     // Realiza a multiplicação elemento por elemento
     gsl_matrix_mul_elements(a, b);
 
     // Imprime a matriz resultado
-    printf("Resultado da multiplicação elemento por elemento:\n");
+    printf("Resultado da multiplicação:\n");
     for (size_t i = 0; i < 2; i++) {
         for (size_t j = 0; j < 2; j++) {
             printf("%g ", gsl_matrix_get(a, i, j));
