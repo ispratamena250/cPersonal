@@ -17,9 +17,9 @@ int main(int argc, char *argv[]){
 	}
 	mod = atoi(argv[1]);
 	int count = (-3)*mod;
-	int classe[mod][mod+8];
+	int classe[mod][mod+2];
 
-	for(int i=0; i<mod+8; i++){
+	for(int i=0; i<mod+2; i++){
 		for(int j=0; j<mod; j++){
 			classe[j][i] = count;
 			count++;
@@ -27,8 +27,8 @@ int main(int argc, char *argv[]){
 	}
 	for(int i=0; i<mod; i++){
 		printf("\n[... ");
-		for(int j=0; j<mod+8; j++){
-			if(j==mod+7){
+		for(int j=0; j<mod+2; j++){
+			if(j==mod+1){
 				printf("%d ...]", classe[i][j]);
 			}else{
 				printf("%d\t", classe[i][j]); //É APENAS UMA MATRIZ TRANSPOSTA!!!!!!!
