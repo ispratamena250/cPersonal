@@ -26,14 +26,14 @@ int main(int argc, char* argv[3]){
 	do{
 		c = a - b;
 		count++;
-		printf("%d = %d - %d\n", c, a, b);
+		//printf("%d = %d - %d\n", c, a, b);
 		a = c;
 		if(c < b){
 			a = b;
 			b = c;
 			c = a - b;
 			count++;
-			printf("%d = %d - %d\n", c, a, b);
+			//printf("%d = %d - %d\n", c, a, b);
 		}
 	}while(c != b && c != 1);
 	printf("gcd(%d, %d) = %d\nOperacoes: %d\n", auxA, auxB, c, count);
