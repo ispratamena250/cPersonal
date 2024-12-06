@@ -1,14 +1,20 @@
 /*
 * Euclidian Algorithm without '%'
+* Compile assim: $ gcc -Wall euclidianAlgorithmSemMod.c -o euclidianAlgorithmSemMod
 */
-
 #include <stdio.h>
+#include <stdlib.h>
 
-int main(){
+int main(int argc, char* argv[3]){
 	int a, b, c=0, aux1, auxA, auxB, count=0;
+	
+	if(argc != 3){
+		printf("Erro! Execute assim: $ ./euclidianAlgorithmSemMod a b\n");
+		exit(1);
+	}	
+	a = atoi(argv[1]);
+	b = atoi(argv[2]);	
 
-	printf("Type two natural numbers: ");
-	scanf("%d %d", &a, &b);
 	auxA = a;
 	auxB = b;	
 
