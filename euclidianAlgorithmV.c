@@ -1,6 +1,6 @@
 /* 
 * C program to implement the Euclidian Algorithm to find the greatest commum divisor between tow natural numbers
-* Nesse caso, 'euclidianAlgorithmV' significa o código virgem (ou original) do algoritimo de Euclides que eu fiz
+* Nesse caso, 'euclidianAlgorithmV' significa o código virgem (ou original) do algoritmo de Euclides que eu fiz
 */
 #include <stdio.h>
 int main(){	
