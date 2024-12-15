@@ -2,6 +2,7 @@
  * C programm to generate a giant number (string) with a desired size
  * Run like this: $numeroGiganormicoDesejado n
  * If you want to copy the output to clipboard: ./numeroGiganormicoDesejado n | xclip -selection clipboard
+ * To install xclip: sudo apt-get install xclip
  * */
 #include <stdio.h>
 #include <stdlib.h>
