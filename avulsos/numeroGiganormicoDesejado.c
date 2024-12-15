@@ -27,7 +27,6 @@ int main(int argc, char *argv[]){
 			aux = rand() % 10;
 			s[i] = (char) aux;
 		}
-		//sprintf(s, "%d", aux); //Errado
 	}
 
 	for(int i=0; i<n; i++){
