@@ -1,14 +1,13 @@
 /*
  * C programm to generate a giant number (string) with a desired size
  * Run like this: $numeroGiganormicoDesejado n
- * It's needed the xclip installed: sudo apt-get install xclip 
+ * If you want to copy the output to clipboard: ./numeroGiganormicoDesejado n | xclip -selection clipboard
  * */
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 #include <time.h>
 
-int main(int argc, char *argv[]){ //Terminar depois!!
+int main(int argc, char *argv[]){
 	int n, aux;
 	srand(time(NULL));
 
@@ -20,12 +19,18 @@ int main(int argc, char *argv[]){ //Terminar depois!!
 	char s[n];
 
 	for(int i=0; i<n; i++){
-		aux = rand() % 10;
-		sprintf(s, "%d", aux);
+		if(i==0){
+			aux = 1 + rand() % (9 - 1 + 1); //Generate pseudo random numbers between 1 and 9
+			s[i] = (char) aux;
+		}else{
+			aux = rand() % 10;
+			s[i] = (char) aux;
+		}
+		//sprintf(s, "%d", aux); //Errado
 	}
 
 	for(int i=0; i<n; i++){
-		printf("%d ", s[i]);
+		printf("%d", s[i]);
 	}
 	printf("\n");
 
