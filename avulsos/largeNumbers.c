@@ -42,9 +42,9 @@ void addLargeNumbers(char* num1, char* num2)
 int main()
 {
 	//char num1[1000] = "979879879879879879879879879879879879798798798321i2759872405982475264572495827409877";
-	char num1[1000] = "2";
+	char num1[1000] = "500";
 	//char num2[1000] = "1444444497987987135798451453464654";
-	char num2[1000] = "3";
+	char num2[1000] = "2";
 
 	printf("%ld\n", strlen(num1));
 	printf("%ld\n", strlen(num2));
