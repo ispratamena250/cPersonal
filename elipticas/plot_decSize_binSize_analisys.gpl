@@ -1,0 +1,24 @@
+#Script de plotagem do programa decSize_binSize_analisys.c
+#Programa presente em /estudoC/elipticas
+
+reset
+set terminal qt 1 #Primeira janela: força o gnuplot a carregar as duas janelas, necessário para o pipe plotar o dois gráficos
+set xrange [-10:610]
+set yrange [0:15]
+set xlabel 'Números em decimal'
+set ylabel 'Quantidade de bits na base 2'
+set title 'Decimal and binary: number of bits analisys'
+set style fill solid 1.0 border -1
+set boxwidth 0.8
+set style line 1 lc rgb 'black'
+plot 'dados_decSize_binSize_analisys.txt' u 1:4 t 'quantidade de bits' w boxes ls 1
+
+reset
+set terminal qt 2 #Segunda janela: força o gnuplot a carregar as duas janelas, necessário para o pipe plotar o dois gráficos
+set key bottom right
+set xlabel 'Quantidade de bits das representações dos nº decimais'
+set ylabel 'Quantidade de bits das representações dos nº binários'
+set xrange [0:5]
+set yrange [0:12]
+set title 'Decimal and binary: number of bits analisys'
+plot 'dados_decSize_binSize_analisys.txt' u 3:4 t 'quantidade de bits' w p pt 7 lc rgb 'red'
