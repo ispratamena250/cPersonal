@@ -24,7 +24,7 @@ int main(int argc, char* argv[]) {
     exit(1);
   }
   
-  printf("Z%d até %d:\n", m, m-1);
+  printf("Classe de equivalência Z%d e inversos:\n", m);
   for(int i=1; i<m; i++){
     int inverse = modInverse(i, m);
     if(inverse != -1){
@@ -42,7 +42,7 @@ int main(int argc, char* argv[]) {
       printf("%d ", v[i]);
     }
   }
-  printf("\nOrder of U%d: %d", m, orderUn);
+  printf("\nOrdem de U%d: %d", m, orderUn);
 
   free(v);
 
