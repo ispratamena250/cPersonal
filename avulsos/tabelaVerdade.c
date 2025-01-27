@@ -2,6 +2,7 @@
  *  C program to create a desired truth table
  *  Compile: $ gcc -Wall tabelaVerdade.c -lm -lgmp -o tabelaVerdade.x
  *  Run: ./tabelaVerdade.x var
+ *  To download libgmp: sudo apt install libgmp-dev
  * */
 
 #include <stdio.h>
