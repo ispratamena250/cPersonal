@@ -26,7 +26,7 @@ int main(int argc, char *argv[2]){ //Para valores muito altos, como 45, faltam a
   int aux_lastLine = atoi(argv[1]);
   int last = lastLine_numOfBits(aux_lastLine);
 
-  for(int i=0; i<=(int)pow(2, var); i++){
+  for(int i=0; i<(int)pow(2, var); i++){
     char aux[100];
     sprintf(aux, "%d", i);
     mpz_set_str(n, aux, 10);
@@ -50,7 +50,7 @@ int main(int argc, char *argv[2]){ //Para valores muito altos, como 45, faltam a
  *  A function that find the number of bits of the last line of the truth table
  * */
 int lastLine_numOfBits(int z){ 
-  int aux = (int)pow(2, z);
+    int aux = (int)pow(2, z-1);
   char s[100];
   sprintf(s, "%d", aux);
 
