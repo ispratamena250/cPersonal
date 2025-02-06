@@ -9,7 +9,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int main(int argc, char *argv[4]){
+int main(int argc, char *argv[4]){ //Good exemple: $ ./elipticas_IsaacMenezes.x -7 10 1009
   if(argc != 4){
     printf("Error! Run $ ./elipticas_IsaacMenezes.x a b p\n");
     exit(1);
@@ -35,8 +35,8 @@ int main(int argc, char *argv[4]){
     for(int y=0; y<p; y++){
       if(y*y % p == (x*x*x + a*x + b) % p){
         n++;
-        if(n < 250){
-          printf("G%d = (%d %d)\n", n, x, y);
+        if(n < 1000){
+          printf("G%d = (%d, %d)\n", n, x, y);
         }else{
           break;
         }
@@ -52,11 +52,11 @@ int main(int argc, char *argv[4]){
   fprintf(gnuplot, "set xlabel 'x'\n");
   fprintf(gnuplot, "set ylabel 'f(x) mod %d'\n", p);
   fprintf(gnuplot, "set title 'Elliptc curve graph: y^2 = x^3 + %dx + %d (mod %d)'\n", a, b, p);
-  fprintf(gnuplot, "plot 'pontosElipticas.dat' u 1:2 w p lc rgb 'red' pt 7 notitle\n");
+  fprintf(gnuplot, "plot 'pontosElipticas.dat' u 1:2 w p lc rgb 'red' pt 7 t 'points', %d/2 w l lw 3 lc rgb 'green' t 'symmetry'\n", p);
 
   fprintf(gnuplot, "set xlabel 'x'\n");
   fprintf(gnuplot, "set ylabel 'f(x)'\n");
-  fprintf(gnuplot, "set title 'Elliptc curve graph over the |R field'\n");
+  fprintf(gnuplot, "set title 'Elliptc curve graph over the R field'\n");
   fprintf(gnuplot, "set zeroaxis\n");
   fprintf(gnuplot, "set samples 100000\n");
   fprintf(gnuplot, "f(x) = (x**3 + %d*x + %d >=0) ? sqrt(x**3 + %d*x + %d) : 1/0\n", a, b, a, b);
