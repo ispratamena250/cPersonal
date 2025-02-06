@@ -1,6 +1,6 @@
 /*
  * C program to implement the elliptic curve cryptography
- * Isaac Menezes Pereira, 190088885
+ * Isaac Menezes Pereira, 190088885 - feb, 2025
  *
  * Compile: gcc -Wall elipticas_IsaacMenezes.c -o elipticas_IsaacMenezes.x 
  * Run: ./elipticas_IsaacMenezes.x a b p
@@ -8,21 +8,16 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 
-int main(int argc, char *argv[4]){ //Good exemple: $ ./elipticas_IsaacMenezes.x -7 10 1009
+//Signatures
+void generatingPoints(int a, int b, int p, int n);
+void choosingPoints(int n);
+
+int main(int argc, char *argv[4]){
   if(argc != 4){
     printf("Error! Run $ ./elipticas_IsaacMenezes.x a b p\n");
-    exit(1);
-  }
-
-  FILE *file1 = fopen("pontosElipticas.dat", "w");
-  if(!file1){
-    printf("Error on openning pontosElipticas.dat\n");
-    exit(1);
-  }
-  FILE *gnuplot = popen("gnuplot -persistent", "w");
-  if(!gnuplot){
-    printf("Error on openning gnuplot pipe\n");
+    printf("Thes arguments satisfy: y^2 = x^3 + ax + b (mod p)\n");
     exit(1);
   }
 
@@ -31,40 +26,95 @@ int main(int argc, char *argv[4]){ //Good exemple: $ ./elipticas_IsaacMenezes.x 
       p = atoi(argv[3]),
       n = 0;
 
+  generatingPoints(a, b, p, n);
+
+  return 0;
+}
+
+//Generating the points
+void generatingPoints(int a, int b, int p, int n){
+  //Creating first file
+  FILE *file1 = fopen("pointsElliptics.dat", "w");
+  if(!file1){
+    printf("Error on openning pointsElliptics.dat in 'w'\n");
+    exit(1);
+  }
+
+  //Generating the points with a limit of the quantitie 
   for(int x=0; x<p; x++){
     for(int y=0; y<p; y++){
       if(y*y % p == (x*x*x + a*x + b) % p){
         n++;
-        if(n < 1000){
-          printf("G%d = (%d, %d)\n", n, x, y);
-        }else{
+        fprintf(file1, "%d\t%d\n", x, y);
+        if(n > 1000){
           break;
         }
-        fprintf(file1, "%d\t%d\n", x, y);
       }
     }
   }
 
   fclose(file1);
 
-  fprintf(gnuplot, "set terminal wxt size 1700,850\n");
-  fprintf(gnuplot, "set multiplot layout 1,2 title 'Graphs: mod p and |R (reals field)'\n");
-  fprintf(gnuplot, "set xlabel 'x'\n");
-  fprintf(gnuplot, "set ylabel 'f(x) mod %d'\n", p);
-  fprintf(gnuplot, "set title 'Elliptc curve graph: y^2 = x^3 + %dx + %d (mod %d)'\n", a, b, p);
-  fprintf(gnuplot, "plot 'pontosElipticas.dat' u 1:2 w p lc rgb 'red' pt 7 t 'points', %d/2 w l lw 3 lc rgb 'green' t 'symmetry'\n", p);
+  system("open pointsElliptics.dat");
 
-  fprintf(gnuplot, "set xlabel 'x'\n");
-  fprintf(gnuplot, "set ylabel 'f(x)'\n");
-  fprintf(gnuplot, "set title 'Elliptc curve graph over the R field'\n");
-  fprintf(gnuplot, "set zeroaxis\n");
-  fprintf(gnuplot, "set samples 100000\n");
-  fprintf(gnuplot, "f(x) = (x**3 + %d*x + %d >=0) ? sqrt(x**3 + %d*x + %d) : 1/0\n", a, b, a, b);
-  fprintf(gnuplot, "fl(x) = (x**3 + %d*x + %d >=0) ? -sqrt(x**3 + %d*x + %d) : 1/0\n", a, b, a, b);
-  fprintf(gnuplot, "plot f(x) w l lw 2 lc rgb 'red' t 'y^2 = x^3 + %dx + %d', fl(x) w l lw 2 lc rgb 'red' notitle\n", a, b);
-  pclose(gnuplot);
+  choosingPoints(n); 
+} 
 
-  system("open pontosElipticas.dat");
+//Choosing the points for the finding order algorithm
+void choosingPoints(int n){
+  srand(time(NULL));
+  char buffer[100];
 
-  return 0;
+  FILE *file2 = fopen("pointsElliptics.dat", "r");
+  if(!file2){
+    printf("Error on openning pointsElliptics.dat in 'r'\n");
+    exit(1);
+  }
+  FILE *file3 = fopen("choosedPoints_ellipticCurve.dat", "w");
+  if(!file3){
+    printf("Error on openning choosedPoints_ellipticCurve.dat in 'w'\n");
+    exit(1);
+  }
+
+  //Checking the number of lines in file2
+  int totalLines=0;
+  while(fgets(buffer, sizeof(buffer), file2)){
+    totalLines++;
+  }
+  rewind(file2);
+
+  //Creating the vector with a specific size depending on the number of lines in file2
+  int tamVetor;
+  if(n > 100){
+    tamVetor = 100;
+  }else{
+    tamVetor = n;
+  }
+  int v_random[tamVetor];
+  
+  //Assigning random values to the vector depending on its size and the number of lines in file2
+  for(int i=0; i<tamVetor; i++){
+    int aux = rand() % n;
+    v_random[i] = aux;
+  }  
+  
+  //Printing the specific line in file2 depending on the index of the vector
+  for(int i=0; i<tamVetor; i++){
+    int desiredLine = v_random[i];
+    rewind(file2); //Comes back to tho first line of the file
+    int currentLine = 1;
+    while(fgets(buffer, sizeof(buffer), file2)){
+      if(currentLine == desiredLine){
+          //printf("%d -> %s", currentLine, buffer); //Just for checking
+          fprintf(file3, "%s", buffer);
+          break;
+      }
+      currentLine++;
+    }
+  } 
+
+  fclose(file2);
+  fclose(file3);
+
+  system("open choosedPoints_ellipticCurve.dat");
 }
