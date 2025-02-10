@@ -2,30 +2,34 @@
  * C program to implement the elliptic curve cryptography
  * Isaac Menezes Pereira, 190088885
  * 
- * Compile: $ gcc -Wall curvasElipticas.c -lm -o curvasElipticas.x 
+ * Compile: $ gcc -Wall curvasElipticas.c -o curvasElipticas.x 
  * Run: $ ./curvasElipticas.x a b p
  * */
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <math.h>
 
 //Signatures
 int gcdExtended();
 int modInverse();
 int gcd();
 
-int main(int argc, char *argv[]){
-  if(argc != 4){
+int main(int argc, char *argv[]){ //Exemplo de entrada: 4 4 13
+  if(argc != 6){
     printf("Error! Run: $ ./curvasElipticas.x a b p\n");
     exit(1);
   }
 
-  int gx=5, gy=1, s, xr, yr/*, auxX, auxY*/;
+  int gx = atoi(argv[1]),
+      gy = atoi(argv[2]),
+      p = atoi(argv[3]),
+      a = atoi(argv[4]),
+      b = atoi(argv[5]),
+      s, xr, yr;
 
-  for(int i=0; i<10; i++){
+  for(int i=0; i<1; i++){
     if(i%2 == 0){ //Point doubling
-      s = (gcd((3 * gx*gx + 2),17) * (modInverse(2*gy, 17)))%17;
+      s = (gcd((3 * gx*gx + a), p) * (modInverse(a*gy, p)))%p;
 
       xr = (s*s - 2*gx)%17;
       yr = ((s*(gx - xr) - gy)%17 + 17)%17; //Garante (em C) que o módulo seja feito, mesmo com um número negativo

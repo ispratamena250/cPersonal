@@ -12,13 +12,15 @@ int main() { //Dados de exemplo: 10 20 30 40 50
     }
 
     // Lê números do arquivo
+    printf("Numeros lidos:\n");
     while (fscanf(file, "%d", &num) != EOF) {
-        printf("Número lido: %d\n", num);
+        printf("%d ", num);
     }
 
     // Fecha o arquivo
     fclose(file);
 
+    printf("\n");
     return 0;
 }
 
