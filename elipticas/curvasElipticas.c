@@ -11,9 +11,9 @@
 #include <math.h>
 
 //Signatures
-//int gcdExtended();
-//int modInverse();
-//int gcd();
+int gcdExtended();
+int modInverse();
+int gcd();
 
 int main(int argc, char *argv[]){
   if(argc != 4){
@@ -21,10 +21,10 @@ int main(int argc, char *argv[]){
     exit(1);
   }
 
-  int gx=5, gy=1, countPoint=2, s, xr, yr/*, auxX, auxY*/;
+  int gx=5, gy=1, s, xr, yr/*, auxX, auxY*/;
 
-  for(int i=0; i<1; i++){
-    if(countPoint%2 == 0){ //Point doubling
+  for(int i=0; i<10; i++){
+    if(i%2 == 0){ //Point doubling
       s = (gcd((3 * gx*gx + 2),17) * (modInverse(2*gy, 17)))%17;
 
       xr = (s*s - 2*gx)%17;
@@ -32,62 +32,61 @@ int main(int argc, char *argv[]){
                                             //auxX = xr;
                                             //auxY = yr;
       printf("(%d, %d)\n", xr, yr);
-    }else{ //Adition 
-           //s = auxY - 
     }
   }
 
   return 0;
 }
-/*
+
 //Find the multiplicative inverse mod p
 int gcdExtended(int a, int b, int *x, int *y) {
-if (a == 0) {
- *x = 0;
- *y = 1;
- return b;
- }
+  if (a == 0) {
+    *x = 0;
+    *y = 1;
+    return b;
+  }
 
- int x1, y1; // Coeficientes para as chamadas recursivas
- int gcd = gcdExtended(b % a, a, &x1, &y1);
+  int x1, y1; // Coeficientes para as chamadas recursivas
+  int gcd = gcdExtended(b % a, a, &x1, &y1);
 
-// Atualiza os valores de x e y
- *x = y1 - (b / a) * x1;
- *y = x1;
+  // Atualiza os valores de x e y
+  *x = y1 - (b / a) * x1;
+  *y = x1;
 
- return gcd;
- }
- int modInverse(int a, int m) { //Nesse caso, o inverso sempre existe
- int x, y; // Coeficientes que satisfazem a identidade de Bézout
- int gcd = gcdExtended(a, m, &x, &y);
-
-// O inverso modular existe apenas se o MDC(a, m) = 1
-if (gcd != 1) {
-printf("Inverso modular não existe.\n");
-return -1; // Retorna -1 para indicar que não há inverso
+  return gcd;
 }
 
-// Ajusta x para ser positivo (caso necessário)
-int inverse = (x % m + m) % m;
+int modInverse(int a, int m) { //Nesse caso, o inverso sempre existe
+  int x, y; // Coeficientes que satisfazem a identidade de Bézout
+  int gcd = gcdExtended(a, m, &x, &y);
 
-return inverse;
+  // O inverso modular existe apenas se o MDC(a, m) = 1
+  if (gcd != 1) {
+    printf("Inverso modular não existe.\n");
+    return -1; // Retorna -1 para indicar que não há inverso
+  }
+
+  // Ajusta x para ser positivo (caso necessário)
+  int inverse = (x % m + m) % m;
+
+  return inverse;
 }
 
 //gcd
 int gcd(int a, int b){
-int rest, count=1, aux;
+  int rest, count=1, aux;
 
-if(a < b){
-aux = a;
-a = b;
-b = aux;
+  if(a < b){
+    aux = a;
+    a = b;
+    b = aux;
 
-while(b != 0){
-rest = a % b;
-a = b;
-b = rest;
-count++;
+    while(b != 0){
+      rest = a % b;
+      a = b;
+      b = rest;
+      count++;
+    }
+  }
+  return a;
 }
-}
-return a;
-}*/
