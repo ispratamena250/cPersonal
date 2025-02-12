@@ -10,6 +10,11 @@
 #include <stdlib.h>
 #include <time.h>
 
+typedef struct{
+  int xr, yr, s; 
+
+} PointDoubling;
+
 //Assignments of functions
 void generatingPoints(int a, int b, int p, int n);
 void choosingPoints(int n, int a, int p);
@@ -18,11 +23,6 @@ PointDoubling pointDoubling(int xp, int yp, int a, int p);
 int gcd(int a, int b);
 int modInverse(int a, int p);
 int gcdExtended(int a, int b, int *x, int *y);
-
-typedef struct{
-  int xr, yr, s; 
-
-} PointDoubling;
 
 int main(int argc, char *argv[4]){
   if(argc != 4){
@@ -38,8 +38,8 @@ int main(int argc, char *argv[4]){
 
   generatingPoints(a, b, p, n);
 
-  //system("open pointsElliptics.dat");
-  //system("open choosedPoints_ellipticCurve.dat");
+  system("open pointsElliptics.dat");
+  system("open choosedPoints_ellipticCurve.dat");
 
   return 0;
 }
@@ -147,7 +147,8 @@ void choosingPoints(int n, int a, int p){
 }
 
 int findOrder(int a, int p){
-  char[100] buffer;
+
+  char buffer[100];
   int totalLines = 0, order = 0, value1, value2;
 
   FILE *file5 = fopen("choosedPoints_ellipticCurve.dat", "r") ;
@@ -162,9 +163,18 @@ int findOrder(int a, int p){
     totalLines++;
   }
 
+  //Applying PointDoubling struct in ever single point until find it's order
   rewind(file5);
   while(fscanf(file5, "%d %d", &value1, &value2) == 2){
-    pointDoubling(value1, value2, a, p);
+    PointDoubling pd = pointDoubling(value1, value2, a, p);
+    
+    //printf("P = (%d, %d) | 2P = (%d, %d)\n", value1, value2, pd.xr, pd.yr);
+    do{
+      //PointDoubling pd = pointDoubling(value1, value2, a, p);
+
+      printf("P = (%d, %d) | 2P = (%d, %d)\n", value1, value2, pd.xr, pd.yr);
+    }while ((value1 != pd.xr && value2 != pd.yr) || (((value1 == pd.xr) == (value2 == pd.yr)) == 0));
+
   }
 
   return order;
@@ -173,10 +183,8 @@ int findOrder(int a, int p){
 //Point doubling until find the point in the infinit
 PointDoubling pointDoubling(int px, int py, int a, int p){
   PointDoubling result;
+
   int s, xr, yr;
-  result.xr;
-  result.yr;
-  result.s;
 
   s = ((3 * px*px + a) % p) * (modInverse(2*py, p)) % p;
 
@@ -194,9 +202,11 @@ PointDoubling pointDoubling(int px, int py, int a, int p){
     }while(yr < 0);
   }
 
-  printf("slope: %d\nxr: %d\nyr: %d\n", s, xr, yr);
+  result.xr = xr;
+  result.yr = yr;
+  result.s = s;
   
-  return xr, yr, s;
+  return result;
 }
 
 int gcd(int a, int b){
