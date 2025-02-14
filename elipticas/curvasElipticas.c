@@ -15,7 +15,7 @@ int modInverse();
 int gcd();
 
 int main(int argc, char *argv[]){ //Exemplo de entrada: 4 4 13
-  if(argc != 6){
+  if(argc != 4){
     printf("Error! Run: $ ./curvasElipticas.x a b p\n");
     exit(1);
   }
@@ -24,15 +24,14 @@ int main(int argc, char *argv[]){ //Exemplo de entrada: 4 4 13
       gy = atoi(argv[2]),
       p = atoi(argv[3]),
       a = atoi(argv[4]),
-      b = atoi(argv[5]),
       s, xr, yr;
 
   for(int i=0; i<1; i++){
     if(i%2 == 0){ //Point doubling
-      s = (gcd((3 * gx*gx + a), p) * (modInverse(a*gy, p)))%p;
+      s = ((3 * gx*gx + a) % p) * (modInverse(a*gy, p))%p;
 
-      xr = (s*s - 2*gx)%17;
-      yr = ((s*(gx - xr) - gy)%17 + 17)%17; //Garante (em C) que o módulo seja feito, mesmo com um número negativo
+      xr = (s*s - 2*gx) % p ;
+      yr = ((s*(gx - xr) - gy) % p + p) % p; //Garante (em C) que o módulo seja feito, mesmo com um número negativo
                                             //auxX = xr;
                                             //auxY = yr;
       printf("(%d, %d)\n", xr, yr);

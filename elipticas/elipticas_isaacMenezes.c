@@ -16,7 +16,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-//#include <gmp.h>
+#include <gmp.h>
 
 typedef struct{
   int xr, yr, s; 
@@ -24,7 +24,7 @@ typedef struct{
 } PointDoubling;
 
 //Assignments for all the functions
-void generatingPoints(int a, int b, int p, int n);
+void generatingPoints(char* a, char* b, char* p, char* n);
 void choosingPoints(int n, int a, int p);
 void findOrder(int a, int p);
 PointDoubling pointDoubling(int xp, int yp, int a, int p);
@@ -39,22 +39,22 @@ int main(int argc, char *argv[4]){
     exit(1);
   }
 
-  int a = atoi(argv[1]), 
-      b = atoi(argv[2]),
-      p = atoi(argv[3]),
-      n = 0;
+  char a[100] = argv[1], 
+      b[100] = argv[2],
+      p[100] = argv[3],
+      n[100] = '0';
 
   generatingPoints(a, b, p, n);
 
   system("open pointsElliptics.dat");
   system("open choosedPoints_ellipticCurve.dat");
-  //system("open 2choosedPoints_ellipticCurve.dat");
+  //system("open 2choosedPoints_ellipticCurve.dat"); //Descomentar no final 
 
   return 0;
 }
 
 //Generating the points
-void generatingPoints(int a, int b, int p, int n){
+void generatingPoints(char* a, char* b, char* p, char* n){
   FILE *file1 = fopen("pointsElliptics.dat", "w");
   if(!file1){
     printf("Error on openning pointsElliptics.dat in 'w' mode in generatingPoints()\n");
@@ -62,8 +62,26 @@ void generatingPoints(int a, int b, int p, int n){
   }
 
   //Generating the points with a limit of the quantitie 
-  for(int x=0; x<p; x++){
-    for(int y=0; y<p; y++){
+  mpz_t x, y, one, resultMod, resultPow_y2, resultPow_x3, resutlMult_ax, resultSum_axb, resultMod_axbp; //Creating
+  mpz_init_set_ui(x, 0); 
+  mpz_init_set_ui(y, 0);
+  mpz_init_set_ui(one, 1); //Incrementing variable
+  mpz_init(resultMod);
+  mpz_init(resultPow_y2);
+  mpz_init(resultPow_x3);
+  mpz_init(resultMult_ax); //'a' fica como int ou string?
+  mpz_init(resultSum_axb);
+  mpz_init(resultMod_axbp);
+
+  mpz_pow_ui(resultPow_y2, y, 2); //y^2
+  mpz_mod(resultMod, resultPow_y2, p); //(y^2) % p
+  mpz_pow_ui(resultPow_x3, x, 3); //x^3
+  mpz_mul(resultMult_ax, a, x); //a*x
+  mpz_add(resultSum_axb, resultMult_ax, b); //(a*x)+b //'b' fica como int ou string?
+  
+
+  for(; mpz_cmp(x, p) < 0; mpz_add(x, x, one)){
+    for(; mpz_cmp(y, p) < 0; mpz_add(y, y, one)){
       if(y*y % p == (x*x*x + a*x + b) % p){
         n++;
         fprintf(file1, "%d\t%d\n", x, y);
