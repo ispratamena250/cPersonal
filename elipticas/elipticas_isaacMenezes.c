@@ -25,7 +25,7 @@ typedef struct{
 
 //Assignments for all the functions
 void generatingPoints(char* a, char* b, char* p, char* n);
-void choosingPoints(int n, int a, int p);
+void choosingPoints(char* n, char* a, char* p);
 void findOrder(int a, int p);
 PointDoubling pointDoubling(int xp, int yp, int a, int p);
 int gcd(int a, int b);
@@ -61,31 +61,38 @@ void generatingPoints(char* a, char* b, char* p, char* n){
     exit(1);
   }
 
-  //Generating the points with a limit of the quantitie 
-  mpz_t x, y, one, resultMod, resultPow_y2, resultPow_x3, resutlMult_ax, resultSum_axb, resultMod_axbp; //Creating
+  //Generating a specif quantitie of points 
+  //Creating gmp variables:
+  mpz_t x, y, n_gmp, one, resultMod_y2_p, resultPow_y2, resultPow_x3, resutlMult_ax, resultSum_x3ax_b, resultMod_axb_p, resultSum_x3_ax; 
+
+  //Initializing the gmp variables:
   mpz_init_set_ui(x, 0); 
   mpz_init_set_ui(y, 0);
   mpz_init_set_ui(one, 1); //Incrementing variable
-  mpz_init(resultMod);
   mpz_init(resultPow_y2);
+  mpz_init(resultMod_y2_p);
   mpz_init(resultPow_x3);
   mpz_init(resultMult_ax); //'a' fica como int ou string?
-  mpz_init(resultSum_axb);
-  mpz_init(resultMod_axbp);
+  mpz_init(resultSum_ax_b);
+  mpz_init(resultMod_axb_p);
+  mpz_init(resultSum_x3_ax);
+  mpz_init(n_gmp, n); //Isso funciona? n fica com qual tipo?
 
+  //Operations:
   mpz_pow_ui(resultPow_y2, y, 2); //y^2
-  mpz_mod(resultMod, resultPow_y2, p); //(y^2) % p
+  mpz_mod(resultMod_y2_p, resultPow_y2, p); //(y^2) % p
   mpz_pow_ui(resultPow_x3, x, 3); //x^3
   mpz_mul(resultMult_ax, a, x); //a*x
-  mpz_add(resultSum_axb, resultMult_ax, b); //(a*x)+b //'b' fica como int ou string?
-  
+  mpz_add(resultSum_x3_ax, resultPow_x3, resultMult_ax); //x^3 + a*x
+  mpz_add(resultSum_x3ax_b, resultMult_x3_ax, b); //x^3 + a*x + b //'b' fica como int ou string?
+  mpz_mod(resultMod_x3axb_p, resultSum_x3ax_b, p); //(x^3 + a*x + b) % p
 
   for(; mpz_cmp(x, p) < 0; mpz_add(x, x, one)){
     for(; mpz_cmp(y, p) < 0; mpz_add(y, y, one)){
-      if(y*y % p == (x*x*x + a*x + b) % p){
-        n++;
-        fprintf(file1, "%d\t%d\n", x, y);
-        if(n > 1000){
+      if(y*y % p == (x*x*x + a*x + b) % p){ //mpz_cmp(resultMod_y2_p, resultMod_x3axb_p) == 0;
+        n++; // mpz_add(n_gmp, n_gmp, one);
+        fprintf(file1, "%d\t%d\n", x, y); //printa normal
+        if(gmp_cmp(n_gmp, 1000) > 0){ //n_gmp > 1000
           break;
         }
       }
@@ -95,11 +102,13 @@ void generatingPoints(char* a, char* b, char* p, char* n){
   fclose(file1);
   printf("All points created!\n");
 
-  choosingPoints(n, a, p); 
+  //clean all variables!
+
+  choosingPoints(&n, &a, &p); 
 } 
 
 //Choosing the points for the Finding Order Algorithm
-void choosingPoints(int n, int a, int p){
+void choosingPoints(char* n, char* a, char* p){
   srand(time(NULL));  
   int totalLines = 0;
   char buffer[100];
@@ -124,16 +133,16 @@ void choosingPoints(int n, int a, int p){
 
   //Creating the vector with a specific size depending on the number of lines in file2
   int tamVetor;
-  if(n > 100){
-    tamVetor = 100;
+  if(totalLines > 200){
+    tamVetor = 200;
   }else{
-    tamVetor = n;
+    tamVetor = totalLines;
   }
   int v_random[tamVetor];
 
-  //Assigning random values to the vector depending on its size and the number of lines in file2
+  //Assigning random values to the vector depending on it's size and the number of lines in file2
   for(int i=0; i<tamVetor; i++){
-    int aux = rand() % n;
+    int aux = rand() % totalLines;
     v_random[i] = aux;
   }  
 
@@ -207,8 +216,8 @@ void findOrder(int a, int p){
           break;
 
       }
-      order *= 2;
-      flag++;;
+      order *= 2; //gmp aqui
+      flag++;
     };
     printf("Order: %d\n", order-1);
     fprintf(file6, "%d\t%d\t%d\n", value1, value2, order-1); 
