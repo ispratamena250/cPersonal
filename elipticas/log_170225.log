@@ -1,0 +1,122 @@
+elipticas_isaacMenezes.c: In function ‘modInverse’:
+elipticas_isaacMenezes.c:459:6: error: ‘gcd’ undeclared (first use in this function)
+  459 |   if(gcd != 1){
+      |      ^~~
+elipticas_isaacMenezes.c:459:6: note: each undeclared identifier is reported only once for each function it appears in
+elipticas_isaacMenezes.c: In function ‘gcdExtended’:
+elipticas_isaacMenezes.c:511:34: warning: passing argument 2 of ‘__gmpz_get_str’ makes integer from pointer without a cast [-Wint-conversion]
+  511 |         mpz_get_str(buffer_bGMP, b_gmp, 10);
+      |                                  ^~~~~
+      |                                  |
+      |                                  __mpz_struct *
+In file included from elipticas_isaacMenezes.c:20:
+/usr/include/x86_64-linux-gnu/gmp.h:837:43: note: expected ‘int’ but argument is of type ‘__mpz_struct *’
+  837 | __GMP_DECLSPEC char *mpz_get_str (char *, int, mpz_srcptr);
+      |                                           ^~~
+elipticas_isaacMenezes.c:511:41: warning: passing argument 3 of ‘__gmpz_get_str’ makes pointer from integer without a cast [-Wint-conversion]
+  511 |         mpz_get_str(buffer_bGMP, b_gmp, 10);
+      |                                         ^~
+      |                                         |
+      |                                         int
+/usr/include/x86_64-linux-gnu/gmp.h:837:48: note: expected ‘mpz_srcptr’ {aka ‘const __mpz_struct *’} but argument is of type ‘int’
+  837 | __GMP_DECLSPEC char *mpz_get_str (char *, int, mpz_srcptr);
+      |                                                ^~~~~~~~~~
+elipticas_isaacMenezes.c:512:16: warning: returning ‘char *’ from a function with return type ‘char’ makes integer from pointer without a cast [-Wint-conversion]
+  512 |         return buffer_bGMP;
+      |                ^~~~~~~~~~~
+elipticas_isaacMenezes.c:523:39: error: invalid use of void expression
+  523 |   mpz_get_str(buffer_r_bGMP_mod_aGMP, mpz_mod(r_bGMP_mod_aGMP, b_gmp, a_gmp), 10); //Funciona ou tenho que converter r_bGMP_mod_aGMP para char?
+      |                                       ^~~~~~~
+elipticas_isaacMenezes.c:523:79: warning: passing argument 3 of ‘__gmpz_get_str’ makes pointer from integer without a cast [-Wint-conversion]
+  523 |   mpz_get_str(buffer_r_bGMP_mod_aGMP, mpz_mod(r_bGMP_mod_aGMP, b_gmp, a_gmp), 10); //Funciona ou tenho que converter r_bGMP_mod_aGMP para char?
+      |                                                                               ^~
+      |                                                                               |
+      |                                                                               int
+/usr/include/x86_64-linux-gnu/gmp.h:837:48: note: expected ‘mpz_srcptr’ {aka ‘const __mpz_struct *’} but argument is of type ‘int’
+  837 | __GMP_DECLSPEC char *mpz_get_str (char *, int, mpz_srcptr);
+      |                                                ^~~~~~~~~~
+elipticas_isaacMenezes.c:525:28: warning: passing argument 2 of ‘__gmpz_get_str’ makes integer from pointer without a cast [-Wint-conversion]
+  525 |   mpz_get_str(buffer_aGMP, a_gmp, 10);
+      |                            ^~~~~
+      |                            |
+      |                            __mpz_struct *
+/usr/include/x86_64-linux-gnu/gmp.h:837:43: note: expected ‘int’ but argument is of type ‘__mpz_struct *’
+  837 | __GMP_DECLSPEC char *mpz_get_str (char *, int, mpz_srcptr);
+      |                                           ^~~
+elipticas_isaacMenezes.c:525:35: warning: passing argument 3 of ‘__gmpz_get_str’ makes pointer from integer without a cast [-Wint-conversion]
+  525 |   mpz_get_str(buffer_aGMP, a_gmp, 10);
+      |                                   ^~
+      |                                   |
+      |                                   int
+/usr/include/x86_64-linux-gnu/gmp.h:837:48: note: expected ‘mpz_srcptr’ {aka ‘const __mpz_struct *’} but argument is of type ‘int’
+  837 | __GMP_DECLSPEC char *mpz_get_str (char *, int, mpz_srcptr);
+      |                                                ^~~~~~~~~~
+elipticas_isaacMenezes.c:527:26: warning: passing argument 2 of ‘__gmpz_get_str’ makes integer from pointer without a cast [-Wint-conversion]
+  527 |   mpz_get_str(buffer_x1, x1, 10);
+      |                          ^~
+      |                          |
+      |                          __mpz_struct *
+/usr/include/x86_64-linux-gnu/gmp.h:837:43: note: expected ‘int’ but argument is of type ‘__mpz_struct *’
+  837 | __GMP_DECLSPEC char *mpz_get_str (char *, int, mpz_srcptr);
+      |                                           ^~~
+elipticas_isaacMenezes.c:527:30: warning: passing argument 3 of ‘__gmpz_get_str’ makes pointer from integer without a cast [-Wint-conversion]
+  527 |   mpz_get_str(buffer_x1, x1, 10);
+      |                              ^~
+      |                              |
+      |                              int
+/usr/include/x86_64-linux-gnu/gmp.h:837:48: note: expected ‘mpz_srcptr’ {aka ‘const __mpz_struct *’} but argument is of type ‘int’
+  837 | __GMP_DECLSPEC char *mpz_get_str (char *, int, mpz_srcptr);
+      |                                                ^~~~~~~~~~
+elipticas_isaacMenezes.c:529:26: warning: passing argument 2 of ‘__gmpz_get_str’ makes integer from pointer without a cast [-Wint-conversion]
+  529 |   mpz_get_str(buffer_y1, y1, 10);
+      |                          ^~
+      |                          |
+      |                          __mpz_struct *
+/usr/include/x86_64-linux-gnu/gmp.h:837:43: note: expected ‘int’ but argument is of type ‘__mpz_struct *’
+  837 | __GMP_DECLSPEC char *mpz_get_str (char *, int, mpz_srcptr);
+      |                                           ^~~
+elipticas_isaacMenezes.c:529:30: warning: passing argument 3 of ‘__gmpz_get_str’ makes pointer from integer without a cast [-Wint-conversion]
+  529 |   mpz_get_str(buffer_y1, y1, 10);
+      |                              ^~
+      |                              |
+      |                              int
+/usr/include/x86_64-linux-gnu/gmp.h:837:48: note: expected ‘mpz_srcptr’ {aka ‘const __mpz_struct *’} but argument is of type ‘int’
+  837 | __GMP_DECLSPEC char *mpz_get_str (char *, int, mpz_srcptr);
+      |                                                ^~~~~~~~~~
+elipticas_isaacMenezes.c:531:37: warning: passing argument 2 of ‘__gmpz_init_set_str’ makes pointer from integer without a cast [-Wint-conversion]
+  531 |   mpz_init_set_str(tco_gcdExtended, gcdExtended(buffer_r_bGMP_mod_aGMP, buffer_aGMP, buffer_x1, buffer_y1)); //gcdExtended(b % a, a, &x1, &y1);
+      |                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      |                                     |
+      |                                     char
+/usr/include/x86_64-linux-gnu/gmp.h:874:47: note: expected ‘const char *’ but argument is of type ‘char’
+  874 | __GMP_DECLSPEC int mpz_init_set_str (mpz_ptr, const char *, int);
+      |                                               ^~~~~~~~~~~~
+elipticas_isaacMenezes.c:531:3: error: too few arguments to function ‘__gmpz_init_set_str’
+  531 |   mpz_init_set_str(tco_gcdExtended, gcdExtended(buffer_r_bGMP_mod_aGMP, buffer_aGMP, buffer_x1, buffer_y1)); //gcdExtended(b % a, a, &x1, &y1);
+      |   ^~~~~~~~~~~~~~~~
+/usr/include/x86_64-linux-gnu/gmp.h:874:20: note: declared here
+  874 | __GMP_DECLSPEC int mpz_init_set_str (mpz_ptr, const char *, int);
+      |                    ^~~~~~~~~~~~~~~~
+elipticas_isaacMenezes.c:534:15: error: ‘gdc’ undeclared (first use in this function); did you mean ‘gcd’?
+  534 |   mpz_get_str(gdc, 10, tco_gcdExtended);
+      |               ^~~
+      |               gcd
+elipticas_isaacMenezes.c:547:21: warning: passing argument 2 of ‘__gmpz_set_ui’ makes integer from pointer without a cast [-Wint-conversion]
+  547 |   mpz_set_ui(x_gmp, r_y1_dif_bax1); //*x = y1 - (b / a) * x1;
+      |                     ^~~~~~~~~~~~~
+      |                     |
+      |                     __mpz_struct *
+/usr/include/x86_64-linux-gnu/gmp.h:1043:42: note: expected ‘long unsigned int’ but argument is of type ‘__mpz_struct *’
+ 1043 | __GMP_DECLSPEC void mpz_set_ui (mpz_ptr, unsigned long int);
+      |                                          ^~~~~~~~~~~~~~~~~
+elipticas_isaacMenezes.c:548:21: warning: passing argument 2 of ‘__gmpz_set_ui’ makes integer from pointer without a cast [-Wint-conversion]
+  548 |   mpz_set_ui(y_gmp, x1); //*y = x1;
+      |                     ^~
+      |                     |
+      |                     __mpz_struct *
+/usr/include/x86_64-linux-gnu/gmp.h:1043:42: note: expected ‘long unsigned int’ but argument is of type ‘__mpz_struct *’
+ 1043 | __GMP_DECLSPEC void mpz_set_ui (mpz_ptr, unsigned long int);
+      |                                          ^~~~~~~~~~~~~~~~~
+elipticas_isaacMenezes.c:553:10: warning: returning ‘char *’ from a function with return type ‘char’ makes integer from pointer without a cast [-Wint-conversion]
+  553 |   return gcd;
+      |          ^~~
