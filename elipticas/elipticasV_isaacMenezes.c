@@ -165,7 +165,7 @@ void choosingPoints(long long int n, long long int a, long long int p){
 
 //Finding order
 void findOrder(long long int a, long long int p){
-  long long int order = 2, value1, value2;
+  long long int order=0, value1, value2;
   
   FILE *file5 = fopen("choosedPoints_ellipticCurve.dat", "r") ;
   if(!file5){
@@ -187,21 +187,21 @@ void findOrder(long long int a, long long int p){
     while(1){
       if(flag == 0){
         pd = pointDoubling(value1, value2, a , p);
-        //printf("%lldP = (%d, %d)\n", order, pd.xr, pd.yr);
+        //printf("%lldP = (%lld, %lld)\n", order, pd.xr, pd.yr);
       }else{
         int aux1 = pd.xr;
         int aux2 = pd.yr;
         pd = pointDoubling(aux1, aux2, a, p);
-        //printf("%lldP = (%d, %d)\n", order, pd.xr, pd.yr);
+        //printf("%lldP = (%lld, %lld)\n", order, pd.xr, pd.yr);
         if(pd.xr == value1 && pd.yr == value2) //Point in the infinit found!
           break;
       }
-      order *= 2;
-      flag++;;
+      order++;
+      flag++;
     };
-    //printf("Order: %lld\n", order-1);
-    fprintf(file6, "%lld\t%lld\t%lld\n", value1, value2, order-1); 
-    order = 2;
+    //printf("Order: %lld\n", order+2);
+    fprintf(file6, "%lld\t%lld\t%lld\n", value1, value2, order+2); 
+    order = 0;
     flag = 0;
   }
   
@@ -283,15 +283,17 @@ void encrypting(long long int a, long long int p){
 	PointDoubling pd;
 	PointAdding pa;
 	
-	mpz_t zd_alfa, zd_beta;
-	long long int gx, gy; 
+	mpz_t zd_alfa, zd_beta, zd_r, zd_s;
+	long long int gx, gy, order, auxALFA_xr, auxALFA_yr, auxBETA_xr, auxBETA_yr, auxR_xr, auxR_yr, auxS_xr, auxS_yr; 
 	char alfa[100], beta[100];
 	
 	mpz_init(zd_alfa);
 	mpz_init(zd_beta);
+	mpz_init(zd_r);
+	mpz_init(zd_s);
 	
-	printf("\nChoose a generator: ");
-	scanf("%lld %lld", &gx, &gy);
+	printf("\nChoose a generator and it's order: ");
+	scanf("%lld %lld %lld", &gx, &gy, &order);
 	
 	printf("Choose alfa: ");
 	scanf("%s", alfa);
@@ -301,39 +303,182 @@ void encrypting(long long int a, long long int p){
 	scanf("%s", beta);
 	mpz_set_str(zd_beta, beta, 10);
 	
-	//gmp_printf("%Zd, %Zd\n", zd_alfa, zd_beta);
+	//gmp_printf("%Zd, %Zd\n", zd_alfa, zd_beta); //Just for checking
 	
 	char *binAlfa = mpz_get_str(NULL, 2, zd_alfa);
 	char *binBeta = mpz_get_str(NULL, 2, zd_beta);
-	printf("Alfa bin: %s\nBeta bin: %s\n", binAlfa, binBeta);
+	//printf("Alfa bin: %s\nBeta bin: %s\n", binAlfa, binBeta); //Just for checking
 	//printf("Alfa bin: %c\nBeta bin: %c\n", binAlfa[1], binBeta[1]); //"A string is a array of characteres"
 	
-	//Binary algorithm
+	//Binary algorithm for alfa
 	for(size_t i=0; i<strlen(binAlfa); i++){
 		if(i > 0){
 			if(binAlfa[i] == '1'){
 				if(i == 1){
+					pd = pointDoubling(gx, gy, a, p);
 					
+					pa = pointAdding(pd.xr, gx, pd.yr, gy, p);
+					
+					auxALFA_xr = pa.xr;
+					auxALFA_yr = pa.yr;
+				}else{
+					pd = pointDoubling(auxALFA_xr, auxALFA_yr, a, p);
+					
+					pa = pointAdding(pd.xr, gx, pd.yr, gy, p);
+					
+					auxALFA_xr = pa.xr;
+					auxALFA_yr = pa.yr;
 				}
-				pd = pointDoubling(gx, gy, a, p);
-				printf("1 -> i:%ld, (pd.xr, pd.yr) = (%lld, %lld)\n", i, pd.xr, pd.yr);
-				
-				pa = pointAdding(pd.xr, gx, pd.yr, gy, p);
-				printf("1 -> i:%ld, (pa.xr, pa.yr) = (%lld, %lld)\n", i, pa.xr, pa.yr);
-				
-				long long int aux_paxr = pa.xr;
-				long long int aux_payr = pa.yr;
 			}else{
-				pd = pointDoubling(aux_paxr, aux_payr, a, p);
-				printf("1 -> i:%ld, (pd.xr, pd.yr) = (%lld, %lld)\n", i, pd.xr, pd.yr);
+				if(i == 1){
+					pd = pointDoubling(gx, gy, a, p);
+					
+					auxALFA_xr = pd.xr;
+					auxALFA_yr = pd.yr;
+				}else{
+					pd = pointDoubling(auxALFA_xr, auxALFA_yr, a, p);
+					
+					auxALFA_xr = pd.xr;
+					auxALFA_yr = pd.yr;
+				}
 			}
 		}
 	}
+	printf("A: (%lld, %lld)\n", auxALFA_xr, auxALFA_yr);
+	
+	//Binary algorithm for beta
+	for(size_t j=0; j<strlen(binBeta); j++){
+		if(j > 0){
+			if(binBeta[j] == '1'){
+				if(j == 1){
+					pd = pointDoubling(gx, gy, a, p);
+					
+					pa = pointAdding(pd.xr, gx, pd.yr, gy, p);
+					
+					auxBETA_xr = pa.xr;
+					auxBETA_yr = pa.yr;
+				}else{
+					pd = pointDoubling(auxBETA_xr, auxBETA_yr, a, p);
+					
+					pa = pointAdding(pd.xr, gx, pd.yr, gy, p);
+					
+					auxBETA_xr = pa.xr;
+					auxBETA_yr = pa.yr;
+				}
+			}else{
+				if(j == 1){
+					pd = pointDoubling(gx, gy, a, p);
+					
+					auxBETA_xr = pd.xr;
+					auxBETA_yr = pd.yr;
+				}else{
+					pd = pointDoubling(auxBETA_xr, auxBETA_yr, a, p);
+					
+					auxBETA_xr = pd.xr;
+					auxBETA_yr = pd.yr;
+				}
+			}
+		}
+	}
+	printf("B: (%lld, %lld)\n", auxBETA_xr, auxBETA_yr);
+	
+	
+	long long int a_b = atoi(alfa) * atoi(beta);
+	long long int b_a = atoi(beta) * atoi(alfa);
+	
+	if(a_b > order){
+		a_b = a_b % order;
+	}
+	if(b_a > order){
+		b_a = b_a % order;
+	}
+	
+	mpz_set_ui(zd_r, a_b);
+	mpz_set_ui(zd_s, b_a);
+	
+	char *bin_ab = mpz_get_str(NULL, 2, zd_r);
+	char *bin_ba = mpz_get_str(NULL, 2, zd_s);
+	
+	//Binary for R
+	for(size_t k=0; k<strlen(bin_ab); k++){
+		if(k > 0){
+			if(bin_ab[k] == '1'){ 
+				if(k == 1){
+					pd = pointDoubling(gx, gy, a, p);
+					
+					pa = pointAdding(pd.xr, gx, pd.yr, gy, p);
+					
+					auxR_xr = pa.xr;
+					auxR_yr = pa.yr;
+				}else{
+					pd = pointDoubling(auxR_xr, auxR_yr, a, p);
+					
+					pa = pointAdding(pd.xr, gx, pd.yr, gy, p);
+					
+					auxR_xr = pa.xr;
+					auxR_yr = pa.yr;
+				}
+			}else{
+				if(k == 1){
+					pd = pointDoubling(gx, gy, a, p);
+					
+					auxR_xr = pd.xr;
+					auxR_yr = pd.yr;
+				}else{
+					pd = pointDoubling(auxR_xr, auxR_yr, a, p);
+					
+					auxR_xr = pd.xr;
+					auxR_yr = pd.yr;
+				}
+			}
+		}
+	}
+	printf("R: (%lld, %lld)\n", auxR_xr, auxR_yr);
+	
+	//Binary for S
+	for(size_t l=0; l<strlen(bin_ba); l++){
+		if(l > 0){
+			if(bin_ba[l] == '1'){ 
+				if(l == 1){
+					pd = pointDoubling(gx, gy, a, p);
+					
+					pa = pointAdding(pd.xr, gx, pd.yr, gy, p);
+					
+					auxS_xr = pa.xr;
+					auxS_yr = pa.yr;
+				}else{
+					pd = pointDoubling(auxS_xr, auxS_yr, a, p);
+					
+					pa = pointAdding(pd.xr, gx, pd.yr, gy, p);
+					
+					auxS_xr = pa.xr;
+					auxS_yr = pa.yr;
+				}
+			}else{
+				if(l == 1){
+					pd = pointDoubling(gx, gy, a, p);
+					
+					auxS_xr = pd.xr;
+					auxS_yr = pd.yr;
+				}else{
+					pd = pointDoubling(auxS_xr, auxS_yr, a, p);
+					
+					auxS_xr = pd.xr;
+					auxS_yr = pd.yr;
+				}
+			}
+		}
+	}
+	printf("S: (%lld, %lld)\n", auxS_xr, auxS_yr);
 	
 	mpz_clear(zd_alfa);
 	mpz_clear(zd_beta);
+	mpz_clear(zd_r);
+	mpz_clear(zd_s);
 	free(binAlfa);
 	free(binBeta);
+	free(bin_ab);
+	free(bin_ba);
 }
 
 //Point adding
