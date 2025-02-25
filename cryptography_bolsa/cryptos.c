@@ -32,26 +32,23 @@ void plotting(int a, int b){
     aux1 = b+2;
   }
 
-  fprintf(gnuplot, "set xlabel 'x' offset 2,0\n");
-  fprintf(gnuplot, "set ylabel 'y' offset 0,1.5\n");
+  fprintf(gnuplot, "set xlabel 'x' offset 20.5, 9.3\n");
+  fprintf(gnuplot, "set ylabel 'y' offset 22.3, 8.7 rotate by 360\n");
   fprintf(gnuplot, "set xrange [-%d:%d]\n", aux1, aux1);
   fprintf(gnuplot, "set yrange [-%d:%d]\n", aux1, aux1);
 
   fprintf(gnuplot, "unset xtics\n");
   fprintf(gnuplot, "unset ytics\n");
-
-  fprintf(gnuplot, "set arrow from %d,0 to %d,-%d nohead lw 1 dt 2 lc rgb 'black'\n", a, a, aux1);
-  fprintf(gnuplot, "set arrow from %d,0 to %d,-%d nohead lw 1 dt 2 lc rgb 'black'\n", b, b, aux1);
-  fprintf(gnuplot, "set label 1 '%d' at %d,-(%d-0.5) offset 1,0\n", a, a, aux1);
-  fprintf(gnuplot, "set label 2 '%d' at %d,-(%d-0.5) offset 1,0\n", b, b, aux1);
+  fprintf(gnuplot, "set title 'r_{1} = %d, r_{2} = %d' offset 0, 0.5\n", a, b);
+  //fprintf(gnuplot, "set object 1 rectangle from 30, -42 to 50, -48 fillstyle solid border lc 'black'\n");
 
   fprintf(gnuplot, "set zeroaxis\n");
   fprintf(gnuplot, "set parametric\n");
   fprintf(gnuplot, "set trange [0:2*pi]\n"); //The angle delta is called 't'
   fprintf(gnuplot, "set size square\n");
 
-  fprintf(gnuplot, "plot %d*cos(t), %d*sin(t) notitle, \
-                          %d*cos(t), %d*sin(t) notitle\n", a, a, b, b);
+  fprintf(gnuplot, "plot %d*cos(t), %d*sin(t) lw 2 notitle, \
+                          %d*cos(t), %d*sin(t) lw 2 notitle\n", a, a, b, b);
 
   pclose(gnuplot);
 }
