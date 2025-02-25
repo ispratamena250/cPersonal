@@ -32,7 +32,7 @@ void plotting(int a, int b){
     aux1 = b+2;
   }
 
-  fprintf(gnuplot, "set xlabel 'x' offset 20.5, 9.3\n");
+  fprintf(gnuplot, "set xlabel 'x' offset 20.5, 9.2\n");
   fprintf(gnuplot, "set ylabel 'y' offset 22.3, 8.7 rotate by 360\n");
   fprintf(gnuplot, "set xrange [-%d:%d]\n", aux1, aux1);
   fprintf(gnuplot, "set yrange [-%d:%d]\n", aux1, aux1);
