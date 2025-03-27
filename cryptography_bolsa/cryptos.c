@@ -8,7 +8,7 @@ typedef struct{
 
 //Assingments for rall the functions
 void plotting(double ra, double tetaA, double rb, double tetaB, double rc);
-//void generrating(dourble a, double b);
+void generating(double ra, double rb, double rc);
 Reduction reduction(double x, double y, double r, double teta);
 
 int main(){
@@ -25,23 +25,23 @@ int main(){
 	printf("\nThen the third equation is: {(ra+rb)*cos(t), (ra+rb)*sin(t)}\nC: %.2lf\n", ra+rb);
 	rc = ra + rb;
 
-	//generrating(a, rb);
 	plotting(ra, tetaA, rb, tetaB, rc);
+	generating(ra, rb, rc);
 
 	printf("\n");
 	return 0;
 }
 
-/*void generrating(dourble a, double b){
+void generating(double ra, double rb, double rc){
 	FILE *file1 = fopen("drados_cryptos.dat", "w");
 	if(!file1){
 		printf("Error in file1 in generrating() in 'w' mode\n");
 		exit(1);
 	}
 	
-	for(dourble x=0; x<ra+b; x++){
-		for(dourble y=0; y<ra+b; y++){
-			if((ra*cos(x) + rb*cos(y)) % (a+b) == (a*sin(x) + b*sin(y) % (a+b))){
+	for(double x=0; x<rc; x++){
+		for(double y=0; y<rc; y++){
+			if((ra*cos(x) + rb*cos(y)) % rc == (ra*sin(x) + rb*sin(y)) % rc){
 				fprintf(file1, "%lf\t%lf\n", x, y);
 			}
 		}
@@ -50,7 +50,7 @@ int main(){
 	system("open drados_cryptos.dat");
 	
 	fclose(file1);
-}*/
+}
 
 void plotting(double ra, double tetaA, double rb, double tetaB, double rc){
 	FILE *gnuplot = popen("gnuplot -persist", "w");
