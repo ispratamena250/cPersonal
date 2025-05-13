@@ -3,11 +3,14 @@
 
 typedef struct lista{
     ListaNo* prim;
+    
 }Lista;
 
 typedef struct listano{
     int item;
+    
     ListaNo* prox;
+
 }ListaNo;
 
 //Prototypes
@@ -36,6 +39,7 @@ Lista* cria(void){
 
 void insere(Lista* l, int v){
     ListaNo* novo = (ListaNo*) malloc(sizeof(ListaNo));
+
     novo->item = v;
     novo->prox = l->prim;
     l->prim = novo;
@@ -73,9 +77,8 @@ void remove(Lista* l, int v){
     }
 }
 
-int vazia(Lista* l){
-    return (l->prim == NULL);
-}
+int vazia(Lista* l)
+    return (l->prim == NULL); //Verificacao
 
 void libera(Lista* l){
     ListaNo* p = l->prim;
