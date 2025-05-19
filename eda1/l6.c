@@ -43,76 +43,69 @@ int remover(Lista* l, int z){
 	while(atual != NULL){
 		if(atual->item == z){
 			if(anterior == NULL){
-				l->prim = atual->prox;
+				l->prim = atual->prox;				
 			}else{
 				anterior->prox = atual->prox;
 			}
 			free(atual);
 			return 0;
-		}
+		}	
 		anterior = atual;
 		atual = atual->prox;
 	}
-
 	return 1;
 }
 
 void listar(Lista* l){
-	for(No* novo=l->prim; novo!=NULL; novo=novo->prox)
+	for(No* novo=l->prim; novo!=NULL; novo=novo->prox){
 		printf("%d ", novo->item);
+	}
 }
 
 int buscar(Lista* l, int z){
-	for(No* novo=l->prim; novo!=NULL; novo=novo->prox)
+	for(No* novo=l->prim; novo!=NULL; novo=novo->prox){
 		if(novo->item == z) return 0;
+	}
 
 	return 1;
 }
 
 int vazia(Lista* l){
-	return (l->prim == NULL);
-}
+	if(l->prim == NULL)
+		return 0;
 
-void libera(Lista* l){
-	No* novo = l->prim;
-
-	while(novo != NULL){
-		No* aux = novo->prox;
-		free(novo);
-		novo = aux;
-	}
+	return 1;
 }
 
 int main(){
 	Lista* l = cria();
 
+	printf("\nVazia:\n");
 	int v1 = vazia(l);
-	printf("Vazia: %d", v1);
+	printf("%d", v1);
 
 	insere(l, 10);
 	insere(l, 20);
 	insere(l, 30);
+	insere(l, 40);
+
+	printf("\nVazia:\n");
+	int v2 = vazia(l);
+	printf("%d", v2);
 
 	printf("\nListando:\n");
 	listar(l);
 
-	printf("\nBusca:\n");
-	int b1 = buscar(l, 10);
-	int b2 = buscar(l, 20);
-	printf("%d\n%d", b1, b2);
+	printf("\nBuscando:\n");
+	int b1 = buscar(l, 50);
+	printf("%d\n", b1);
 
 	printf("\nRemovendo:\n");
-	int r1 = remover(l, 10);
-	int r2 = remover(l, 100);
-	printf("%d\n%d", r1, r2);
+	int r1 = remover(l, 20);
+	printf("%d", r1);
 
 	printf("\nListando:\n");
 	listar(l);
-
-	int v2 = vazia(l);
-	printf("\nVazia: %d", v2);
-
-	libera(l);
 
 	printf("\n");
 	return 0;
