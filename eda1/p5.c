@@ -30,55 +30,11 @@ void insere(Pilha* p, int z){
 
 int remover(Pilha* p, int z){
 	if(p->topo == NULL){
-		return 1;		
+		return 1;
 	}else{
-		No* atual = p->topo;
-		p->topo = atual->prox;
-		free(atual);
+		No* no = p->topo;
+		p->topo = no->prox;
+		free(no);
 		return 0;
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
