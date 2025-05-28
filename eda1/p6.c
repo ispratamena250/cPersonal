@@ -1,0 +1,80 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct pilha Pilha;
+typedef struct no No;
+
+struct pilha{
+	No* topo;
+};
+
+struct no{
+	No* prox;
+	int item;
+};
+
+Pilha* cria(){
+	Pilha* p = (Pilha*) malloc(sizeof(Pilha));
+	p->topo = NULL;
+
+	return p;
+}
+
+void insere(Pilha* p, int z){
+	No* novo = (No*) malloc(sizeof(No));
+	no->item = z;
+	//no->prox = NULL;
+
+	novo->prox = p->topo;
+	p->topo = novo;
+}
+
+void remover(Pilha* p, int z){
+	if(p->topo == NULL){
+		return 1;
+	}else{
+		No* no = p->topo;
+		p->topo = no->prox;
+		free(no);
+		return 0;
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
