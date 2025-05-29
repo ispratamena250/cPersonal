@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "filaHeader.h"
 
 typedef struct fila Fila;
 typedef struct no No;
@@ -35,13 +36,13 @@ void insere(Fila* f, int z){
 	f->fim = novo;
 }
 
-int remover(Fila* f, int z){
+int remover(Fila* f){
 	if(f->prim == NULL){
 		return 1;
 	}
 
 	No* no = f->prim;
-	z = no->item;
+	//z = no->item;
 
 	f->prim = no->prox;
 	if(f->prim == NULL){
@@ -52,9 +53,27 @@ int remover(Fila* f, int z){
 	return 0;
 }
 
+int vazia(Fila* f){
+	if(f->prim == NULL)
+		return 0;
 
+	return 1;
+}
 
+void listar(Fila* f){
+	for(No* no=f->prim; no!=NULL; no=no->prox){
+		printf("%d ", no->item);
+	}
+}
 
+int pertence(Fila* f, int z){
+	for(No* no=f->prim; no!=NULL; no=no->prox){
+		if(no->item == z)
+			return 0;
+	}
+
+	return 1;
+}
 
 
 

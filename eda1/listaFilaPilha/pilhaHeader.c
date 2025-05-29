@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "pilhaHeader.h"
 
 typedef struct pilha Pilha;
 typedef struct no No;
@@ -20,7 +21,7 @@ Pilha* cria(){
 	return p;
 }
 
-void push(Pilha* p, int z){
+void insere(Pilha* p, int z){
 	No* novo = (No*) malloc(sizeof(No));
 	novo->item = z;
 
@@ -28,12 +29,12 @@ void push(Pilha* p, int z){
 	p->topo = novo;
 }
 
-int pop(Pilha* p, int z){
+int remover(Pilha* p){
 	if(p->topo == NULL){
 		return 1;
 	}else{
 		No* atual = p->topo;
-		z = atual->item;
+		//z = atual->item;
 		p->topo = atual->prox;
 		free(atual);
 		return 0;
@@ -61,34 +62,6 @@ void imprime(Pilha* p){
 	}
 }
 
-int main(){
-	Pilha* p = cria();
-
-	int v1 = vazia(p);
-	printf("%d\n", v1);
-
-	push(p, 10);
-	push(p, 20);
-	push(p, 30);
-	push(p, 40);
-
-	imprime(p);
-	printf("\n");
-
-	pop(p, 40);
-
-	imprime(p);
-	printf("\n");
-
-	int v2 = vazia(p);
-	printf("%d\n", v2);
-
-	int p1 = pertence(p, 30);
-	printf("%d\n", p1);
-
-	printf("\n");
-	return 0;
-}
 
 
 
