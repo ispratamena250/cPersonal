@@ -1,0 +1,9 @@
+Ordenação básica:
+- bubble sort
+- selection sort
+- inserction sort
+
+Ordenação avançada:
+- merge sort
+- quick sort
+- heap sort
