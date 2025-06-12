@@ -1,18 +1,16 @@
-#include <stdio.h>
-
-void bs(int xs[], int n){
-	int flag, aux;
+void bs(int v[], int n){
+	int aux, troca;
 
 	for(int i=0; i<n-1; i++){
-		flag = 0;
+		troca = 0;
 		for(int j=0; j<n-i-1; j++){
-			if(xs[j] > xs[j+1]){
-				aux = xs[j];
-				xs[j] = xs[j+1];
-				xs[j+1] = aux;
-				flag = 1;
+			if(v[j] > v[j+1]){
+				aux = v[j];
+				v[j] = v[j+1];
+				v[j+1] = aux;
+				troca = 1;
 			}
 		}
-		if(!flag) break;
+		if(!troca) break;
 	}
 }
