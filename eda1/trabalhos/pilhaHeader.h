@@ -3,11 +3,11 @@
 
 typedef struct pilha Pilha;
 
-Pilha* cria();
-void insere(Pilha* p, int z);
-void remover(Pilha* p, int z);
-int vazia(Pilha* p);
-int pertence(Pilha* p, int z);
-void imprime(Pilha* p);
+Pilha* criaPilha();
+void insereItemPilha(Pilha* p, int z);
+int removerItemPilha(Pilha* p, int z);
+int vaziaPilha(Pilha* p);
+int pertencePilha(Pilha* p, int z);
+void imprimePilha(Pilha* p);
 
 #endif

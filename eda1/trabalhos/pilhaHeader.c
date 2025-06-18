@@ -14,14 +14,14 @@ struct no{
 	int item;
 };
 
-Pilha* cria(){
+Pilha* criaPilha(){
 	Pilha* p = (Pilha*) malloc(sizeof(Pilha));
 	p->topo = NULL;
 
 	return p;
 }
 
-void insere(Pilha* p, int z){
+void insereItemPilha(Pilha* p, int z){
 	No* novo = (No*) malloc(sizeof(No));
 	novo->item = z;
 
@@ -29,7 +29,7 @@ void insere(Pilha* p, int z){
 	p->topo = novo;
 }
 
-int remover(Pilha* p, int z){
+int removerItemPilha(Pilha* p, int z){
 	if(p->topo == NULL){
 		return 1;
 	}else{
@@ -41,14 +41,14 @@ int remover(Pilha* p, int z){
 	}
 }
 
-int vazia(Pilha* p){
+int vaziaPilha(Pilha* p){
 	if(p->topo == NULL) 
 		return 0;
 
 	return 1;
 }
 
-int pertence(Pilha* p, int z){
+int pertencePilha(Pilha* p, int z){
 	for(No* no=p->topo; no!=NULL; no=no->prox)
 		if(no->item == z)
 			return 0;
@@ -56,7 +56,7 @@ int pertence(Pilha* p, int z){
 	return 1;
 }
 
-void imprime(Pilha * p){
+void imprimePilha(Pilha * p){
 	for(No* no=p->topo; no!=NULL; no=no->prox)
 		printf("%d\n", no->item);
 }

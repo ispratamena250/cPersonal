@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "listaHeader.h"
+#include "filaHeader.h"
 
 typedef struct fila Fila;
 typedef struct no No;
@@ -13,9 +13,9 @@ struct fila{
 struct no{
 	No* prox;
 	int item;
-}
+};
 
-Fila* cria(){
+Fila* criaFila(){
 	Fila* f = (Fila*) malloc(sizeof(Fila));
 	f->prim = NULL;
 	f->fim = NULL;
@@ -23,7 +23,7 @@ Fila* cria(){
 	return f;
 }
 
-void insere(Fila* f, int z){
+void insereItemFila(Fila* f, int z){
 	No* novo = (No*) malloc(sizeof(No));
 	novo->prox = NULL;
 	novo->item = z;
@@ -36,7 +36,7 @@ void insere(Fila* f, int z){
 	f->fim = novo;
 }
 
-int remover(Fila* f, int z){
+int removerItemFila(Fila* f, int z){
 	if(f->prim == NULL)
 		return 1;
 
@@ -49,19 +49,19 @@ int remover(Fila* f, int z){
 	return 0;
 }
 
-int vazia(Fila* f){
+int vaziaFila(Fila* f){
 	if(f->prim == NULL)
 		return 0;
 
 	return 1;
 }
 
-void imprime(Fila* f){
+void imprimeFila(Fila* f){
 	for(No* no=f->prim; no!=NULL; no=no->prox)
 		printf("%d ", no->item);
 }
 
-int pertence(Fila* f, int z){
+int pertenceFila(Fila* f, int z){
 	for(No* no=f->prim; no!=NULL; no=no->prox)
 		if(no->item == z)
 			return 0;

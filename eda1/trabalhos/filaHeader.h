@@ -3,11 +3,11 @@
 
 typedef struct fila Fila;
 
-Fila* cria();
-void insere(Fila* f, int z);
-void remover(Fila* f, int z);
-int vazia(Fila* f);
-void imprimir(Fila* f);
-int pertence(Fila* f, int z);
+Fila* criaFila();
+void insereItemFila(Fila* f, int z);
+int removerItemFila(Fila* f, int z);
+int vaziaFila(Fila* f);
+void imprimeFila(Fila* f);
+int pertenceFila(Fila* f, int z);
 
 #endif
