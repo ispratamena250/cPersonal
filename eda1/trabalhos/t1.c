@@ -9,11 +9,10 @@
 //Prototypes
 void menu();
 void produzir();
-void distribuir();
-void encerrarSistema();
+void distribuir(int q);
+void geraMatriculas(int random);
 void pulaLinha();
 void palavraLonga(long int tam, int TAM);
-void verificaArquivo(FILE* file, const char *mensagem);
 void clear();
 
 int main(){
@@ -53,29 +52,54 @@ void menu(){
 }
 
 void produzir(){
-	FILE *file1 = fopen("logMarmitas.txt", "w");
-	verificaArquivo(file1, "Erro ao abrir file1 em produzir() em modo 'w'");
 	int q = 0;
 	char sabores[TAM_SABORES];
 	char* controler = "-1";
+	srand(time(NULL));
 
 	printf("Quantidade para produzir: ");
 	scanf("%d", &q);
 	printf("Sabores (-1 para terminar): ");
+	//fprintf(file1, "-0\n");
+	//@
 	do{
 		scanf("%s", sabores);
 		palavraLonga(strlen(sabores), TAM_SABORES);
-		fprintf(file1, "%s\n", sabores);
+		//fprintf(file1, "%s\n", sabores);
+		//@
+
 	}while(strcmp(sabores, controler) != 0);
 
-	fclose(file1);
+	distribuir(q);	
+	
 	pulaLinha();
 }
 
-void distribuir(){
-	printf("distribuindo");
+void distribuir(int q){
+	int quantAlunos = rand()%200;
+	
+	geraMatriculas(file, quantAlunos);
+
+	
+	
 
 	pulaLinha();
+}
+
+void geraMatriculas(int random){
+	srand(time(NULL));
+	char matricula[10];
+
+	for(int i=0; i<random; i++){
+		for(int j=0; j<10; j++){
+			matricula[j] = rand()%10;
+		}
+		//fprintf(file, "%s\n", matricula);
+		//@
+	}
+
+	//fprintf(file, "-2\n");
+	//@
 }
 
 void pulaLinha(){ printf("\n\n"); }
@@ -84,14 +108,6 @@ void palavraLonga(long int len, int TAM){
 	if(len >= TAM){
 		printf("Palavra muito longa!");
 		pulaLinha();
-		exit(1);
-	}
-}
-
-void verificaArquivo(FILE* file, const char *mensagem){
-	if(!file){
-		clear();
-		perror(mensagem);
 		exit(1);
 	}
 }

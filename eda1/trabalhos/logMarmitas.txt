@@ -1,6 +1,4 @@
-f
-f
-f
-f
-f
+frango
+carne
+legumes
 -1
