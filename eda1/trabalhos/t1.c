@@ -2,114 +2,133 @@
 #include <stdlib.h>
 #include <time.h>
 #include <string.h>
-#include "pilhaHeader.h"
-#include "filaHeader.h"
-#define TAM_SABORES 100
+#include <ctype.h>
+#include "pilhaStringsHeader.h"
+#include "filaStringsHeader.h"
+#define SIZE_FLAVORS 100 
 
-//Prototypes
-void menu();
-void produzir();
-void distribuir(int q);
-void geraMatriculas(int random);
-void pulaLinha();
-void palavraLonga(long int tam, int TAM);
-void clear();
+//Prototypes 
+void menu(); 
+void produce(); 
+void distribute(); 
+char* generateId(); 
+void clearLine(); 
+void longString(long int tam, int TAM); 
+void clearScreen(); 
+void removeSpaces(char* s);
 
-int main(){
-	menu();
+int main(){ 
+	menu(); 
 
-	printf("\n");
-	return 0;
-}
+	clearLine();
+	return 0; 
+} 
 
-void menu(){
-	int op = 0;
-
-	while(1){
-		printf("Opcoes:\n1 - Produzir marmitas\n2 - Distribuir marmitas\n3 - Encerrar\nEscolhe: ");
-		scanf("%d", &op);
-		getchar();
-
-		switch(op){
+void menu(){ 
+	int op = 0; 
+	while(1){ 
+		printf("Options:\n1 - Produce lunchs\n2 - Distribute lunchs\n3 - Close system\nChoice: "); 
+		scanf("%d", &op); 
+		getchar(); 
+		switch(op){ 
 			case 1:
-				clear();
-				produzir();
+				clearScreen();
+				produce();
 				break;
 			case 2:
-				clear();
-				distribuir();
+				clearScreen();
+				distribute();
 				break;
 			case 3 : 
 				exit(1);
 				break;
 			default:
-				clear();
-				printf("Opcao invalida\n\n");
+				clearScreen();
+				printf("Invalid option\n\n");
 				break;
 		}
 	}
 
 }
 
-void produzir(){
-	int q = 0;
-	char sabores[TAM_SABORES];
-	char* controler = "-1";
-	srand(time(NULL));
+void produce(){
+	char flavors[SIZE_FLAVORS];
+	int count = 0;
 
-	printf("Quantidade para produzir: ");
-	scanf("%d", &q);
-	printf("Sabores (-1 para terminar): ");
-	//fprintf(file1, "-0\n");
-	//@
-	do{
-		scanf("%s", sabores);
-		palavraLonga(strlen(sabores), TAM_SABORES);
-		//fprintf(file1, "%s\n", sabores);
-		//@
-
-	}while(strcmp(sabores, controler) != 0);
-
-	distribuir(q);	
-	
-	pulaLinha();
-}
-
-void distribuir(int q){
-	int quantAlunos = rand()%200;
-	
-	geraMatriculas(file, quantAlunos);
-
-	
-	
-
-	pulaLinha();
-}
-
-void geraMatriculas(int random){
-	srand(time(NULL));
-	char matricula[10];
-
-	for(int i=0; i<random; i++){
-		for(int j=0; j<10; j++){
-			matricula[j] = rand()%10;
-		}
-		//fprintf(file, "%s\n", matricula);
-		//@
+	Stack* s = createStack(); //Flavors stack
+				  
+	printf("Total of flavors: ");
+	scanf("%d", &count);
+	for(int i=0; i<count; i++){
+		printf("Flavor %d: ", i+1);
+		scanf("%s", flavors);
+		removeSpaces(flavors);
+		longString(strlen(flavors), SIZE_FLAVORS);
+		insertItemStack(s, flavors);	
 	}
 
-	//fprintf(file, "-2\n");
-	//@
+	printStack(s); //@
+
+	clearLine();
 }
 
-void pulaLinha(){ printf("\n\n"); }
+void distribute(){
+	srand(time(NULL));
 
-void palavraLonga(long int len, int TAM){
-	if(len >= TAM){
-		printf("Palavra muito longa!");
-		pulaLinha();
+	Queue* q = createQueue();
+
+	int jocker=200;
+	int quantStudents = rand()%jocker;
+
+	for(int i=0; i<quantStudents; i++){
+		char* id = generateId();
+		insertItemQueue(q, id);
+		free(id);
+	}	
+	
+	printQueue(q); //@
+
+	clearLine();
+}
+
+char* generateId(){
+	char* id = (char*) malloc(10);
+	if(id == NULL){
+		perror("Fail to allocate memory for string in generateId()");		
+		exit(1);
+	}
+	char aux[10];
+
+	for(int j=0; j<9; j++)
+		aux[j] = (rand()%10)  + '0';
+
+	id[9] = '\0';
+
+	strcpy(id, aux);
+
+	return id;
+}
+ 
+void clearLine(){ printf("\n\n"); }
+
+void longString(long int len, int SIZE){
+	if(len >= SIZE){
+		printf("Too long string!");
+		clearLine();
 		exit(1);
 	}
 }
 
-void clear(){ system("cls || clear"); }
+void clearScreen(){ system("cls || clear"); }
+
+void removeSpaces(char* s){
+	int nonSpaceCount = 0;
+
+	for(int i=0; s[i]!='\0'; i++){
+		if(!isspace((unsigned char) s[i])){
+			s[nonSpaceCount] = s[i];
+			nonSpaceCount++;
+		}
+	}
+	s[nonSpaceCount] = '\0';
+}
