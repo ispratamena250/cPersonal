@@ -5,45 +5,59 @@
 #include <ctype.h>
 #include "pilhaStringsHeader.h"
 #include "filaStringsHeader.h"
+
 #define SIZE_FLAVORS 100 
+Stack* flavorStack;
+Queue* idQueue;
 
 //Prototypes 
 void menu(); 
 void produce(); 
 void distribute(); 
 char* generateId(); 
-void clearLine(); 
+void clearLine(int q); 
 void longString(long int tam, int TAM); 
 void clearScreen(); 
 void removeSpaces(char* s);
+void verifyFile(FILE* file, char &whichFunction, char &whichOption);
 
 int main(){ 
 	menu(); 
 
-	clearLine();
+	cleanStack(flavorStack);
+	cleanQueue(idQueue);
+
+	clearLine(2);
 	return 0; 
 } 
 
 void menu(){ 
 	int op = 0; 
 	while(1){ 
-		printf("Options:\n1 - Produce lunchs\n2 - Distribute lunchs\n3 - Close system\nChoice: "); 
+		printf("------MENU------\n");
+		printf("Options:\n1 - Produce meal boxes\n2 - Distribute meal boxes\n3 - Close system\nChoice: "); 
 		scanf("%d", &op); 
 		getchar(); 
 		switch(op){ 
 			case 1:
-				clearScreen();
+				clearLine(1);
+				printf("------PRODUCE MEAL BOXES------\n");
 				produce();
 				break;
 			case 2:
-				clearScreen();
+				clearLine(1);
+				int verify = emptyStack(flavorStack);
+				if(verify == 0){ //No meal boxes avalable
+					printf("There is no boxes yet\n");
+					exit(1);
+				}
+				printf("------DISTRIBUTE MEAL BOXES------\n");
 				distribute();
 				break;
 			case 3 : 
 				exit(1);
 				break;
 			default:
-				clearScreen();
 				printf("Invalid option\n\n");
 				break;
 		}
@@ -52,43 +66,61 @@ void menu(){
 }
 
 void produce(){
-	char flavors[SIZE_FLAVORS];
-	int count = 0;
+	char str[SIZE_FLAVORS];
+	char* flavorOptions[SIZE_FLAVORS]; 
+	int count=0, guess=0;
 
-	Stack* s = createStack(); //Flavors stack
-				  
+	flavorStack = createStack();
+
 	printf("Total of flavors: ");
 	scanf("%d", &count);
+	getchar(); 
 	for(int i=0; i<count; i++){
 		printf("Flavor %d: ", i+1);
-		scanf("%s", flavors);
-		removeSpaces(flavors);
-		longString(strlen(flavors), SIZE_FLAVORS);
-		insertItemStack(s, flavors);	
+		fgets(str, sizeof(str), stdin);
+		str[strcspn(str, "\n")] = '\0';
+		removeSpaces(str);
+		longString(strlen(str), SIZE_FLAVORS);
+
+		flavorOptions[i] = (char*) malloc(strlen(str)+1);
+		strcpy(flavorOptions[i], str);
 	}
+	
+	printf("Total production: ");
+	scanf("%d", &guess);
+	getchar();
 
-	printStack(s); //@
+	for(int i=0; i<guess; i++)
+		insertItemStack(flavorStack, flavorOptions[i%count]);	
 
-	clearLine();
+	printStack(flavorStack);
+
+	clearLine(2);
 }
 
 void distribute(){
+	FILE* file1 = fopen("logMealBoxes.txt", 'w');
+	verifyFile(file1, "distribute()", "w");
+
 	srand(time(NULL));
-
-	Queue* q = createQueue();
-
 	int jocker=200;
 	int quantStudents = rand()%jocker;
 
+	idQueue = createQueue();
+
 	for(int i=0; i<quantStudents; i++){
 		char* id = generateId();
-		insertItemQueue(q, id);
+		insertItemQueue(idQueue, id);
 		free(id);
 	}	
 	
-	printQueue(q); //@
+	printQueue(idQueue); //@
 
-	clearLine();
+	//@
+			
+
+	fclose(file1);
+	clearLine(2);
 }
 
 char* generateId(){
@@ -109,12 +141,15 @@ char* generateId(){
 	return id;
 }
  
-void clearLine(){ printf("\n\n"); }
+void clearLine(int q){ 
+	for(int i=0; i<q; i++)
+		printf("\n");
+}
 
 void longString(long int len, int SIZE){
 	if(len >= SIZE){
 		printf("Too long string!");
-		clearLine();
+		clearLine(2);
 		exit(1);
 	}
 }
@@ -131,4 +166,11 @@ void removeSpaces(char* s){
 		}
 	}
 	s[nonSpaceCount] = '\0';
+}
+
+void verifyFile(FILE* file, char &whichFunction, char &whichOption){
+	if(!file){
+		perror("Fail to create file in %s in '%s' option", whichFunction, whichOption);
+		exit(1);
+	}
 }

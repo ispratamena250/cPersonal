@@ -66,7 +66,10 @@ int removeItemQueue(Queue* q){
 }
 
 int emptyQueue(Queue* q){
-	return (q->first == NULL);
+	if(q->first == NULL)
+		return 0;
+
+	return 1;
 }
 
 void printQueue(Queue* q){
@@ -89,4 +92,13 @@ void clearQueue(Queue* q){
 		removeItemQueue(q);
 
 	free(q);
+}
+
+int queueSize(Queue* q){
+	int count=0;
+
+	for(Node* node=q->first; node!=NULL; node=node->next)
+		count++;
+
+	return count;
 }

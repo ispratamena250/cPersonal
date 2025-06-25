@@ -11,5 +11,6 @@ int emptyQueue(Queue* q);
 void printQueue(Queue* q);
 int belongQueue(Queue* q, const char* c);
 void clearQueue(Queue* q);
+int queueSize(Queue* q);
 
 #endif

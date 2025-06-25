@@ -11,5 +11,6 @@ int emptyStack(Stack* s);
 int belongStack(Stack* s, const char* c);
 void printStack(Stack* s);
 void clearStack(Stack* s);
+int stackSize(Stack* s);
 
 #endif

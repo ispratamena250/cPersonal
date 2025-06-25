@@ -59,7 +59,10 @@ int removeItemStack(Stack* s){
 }
 
 int emptyStack(Stack* s){
-	return (s->top == NULL);
+	if(s->top == NULL)
+		return 0;
+
+	return 1;
 }
 
 int belongStack(Stack* s, const char* c){
@@ -82,4 +85,13 @@ void cleanStack(Stack *s){
 		removeItemStack(s);
 
 	free(s);
+}
+
+int stackSize(Stack* s){
+	int count=0;
+
+	for(Node* node=s->top; node!=NULL; node=node->next)
+		count++;
+
+	return count;
 }
