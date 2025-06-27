@@ -7,17 +7,17 @@ typedef struct queue Queue;
 typedef struct node Node;
 
 struct queue{
-	Node* first;
-	Node* end;
+	Node *first;
+	Node *end;
 };
 
 struct node{
-	Node* next;
-	char* item;
+	Node *next;
+	char *item;
 };
 
-Queue* createQueue(){
-	Queue* q = (Queue*) malloc(sizeof(Queue));
+Queue *createQueue(){
+	Queue *q = (Queue*) malloc(sizeof(Queue));
 	if(!q){
 		perror("Fail to allocate queue");
 		exit(1);
@@ -28,8 +28,8 @@ Queue* createQueue(){
 	return q;
 }
 
-void insertItemQueue(Queue* q, const char* c){
-	Node* new = (Node*) malloc(sizeof(Node));
+void insertItemQueue(Queue *q, const char *c){
+	Node *new = (Node*) malloc(sizeof(Node));
 	if(!new){
 		perror("Fail to allocate node");
 		exit(1);
@@ -51,53 +51,53 @@ void insertItemQueue(Queue* q, const char* c){
 	q->end = new;
 }
 
-int removeItemQueue(Queue* q){
+int removeItemQueue(Queue *q){
 	if(q->first == NULL)
 		return 1;
 
-	Node* node = q->first;
+	Node *node = q->first;
 	q->first = node->next;
 	if(q->first == NULL)
 		q->end = NULL;
 
 	free(node->item);
 	free(node);
+
 	return 0;
 }
 
-int emptyQueue(Queue* q){
+int emptyQueue(Queue *q){
 	if(q->first == NULL)
-		return 0;
+		return 1;
 
-	return 1;
+	return 0;
 }
 
-void printQueue(Queue* q){
-	for(Node* node=q->first; node!=NULL; node=node->next)
+void printQueue(Queue *q){
+	for(Node *node=q->first; node!=NULL; node=node->next)
 		printf("%s ", node->item);
 
-	printf("\n");
 }
 
-int belongQueue(Queue* q, const char* c){
-	for(Node* node=q->first; node!=NULL; node=node->next)
+int belongQueue(Queue *q, const char *c){
+	for(Node *node=q->first; node!=NULL; node=node->next)
 		if(strcmp(node->item, c) == 0)
 			return 0;
 
 	return 1;
 }
 
-void clearQueue(Queue* q){
+void clearQueue(Queue *q){
 	while(!emptyQueue(q))
 		removeItemQueue(q);
 
 	free(q);
 }
 
-int queueSize(Queue* q){
+int queueSize(Queue *q){
 	int count=0;
 
-	for(Node* node=q->first; node!=NULL; node=node->next)
+	for(Node *node=q->first; node!=NULL; node=node->next)
 		count++;
 
 	return count;

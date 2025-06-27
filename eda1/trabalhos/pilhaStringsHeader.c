@@ -7,16 +7,16 @@ typedef struct stack Stack;
 typedef struct node Node;
 
 struct stack{
-	Node* top;
+	Node *top;
 };
 
 struct node{
-	Node* next;
-	char* item;
+	Node *next;
+	char *item;
 };
 
-Stack* createStack(){
-	Stack* s = (Stack*) malloc(sizeof(Stack));
+Stack *createStack(){
+	Stack *s = (Stack*) malloc(sizeof(Stack));
 	if(!s){
 		perror("Fail to allocate memory for stack");
 		exit(1);
@@ -27,8 +27,8 @@ Stack* createStack(){
 	return s;
 }
 
-void insertItemStack(Stack* s, const char* c){
-	Node* new = (Node*) malloc(sizeof(Node));
+void insertItemStack(Stack *s, const char *c){
+	Node *new = (Node*) malloc(sizeof(Node));
 	if(!new){
 		perror("Fail to allocate memory for node");
 		exit(1);
@@ -45,11 +45,11 @@ void insertItemStack(Stack* s, const char* c){
 	s->top = new;
 }
 
-int removeItemStack(Stack* s){
+int removeItemStack(Stack *s){
 	if(s->top == NULL)
 		return 1;
 
-	Node* actual = s->top;
+	Node *actual = s->top;
 	s->top = actual->next;
 
 	free(actual->item);
@@ -58,40 +58,54 @@ int removeItemStack(Stack* s){
 	return 0;
 }
 
-int emptyStack(Stack* s){
+int emptyStack(Stack *s){
 	if(s->top == NULL)
-		return 0;
+		return 1;
 
-	return 1;
+	return 0;
 }
 
-int belongStack(Stack* s, const char* c){
-	for(Node* node=s->top; node!=NULL; node=node->next)
+int belongStack(Stack *s, const char *c){
+	for(Node *node=s->top; node!=NULL; node=node->next)
 		if(strcmp(node->item, c) == 0)
 			return 0;
 
 	return 1;
 }
 
-void printStack(Stack* s){
-	for(Node* node=s->top; node!=NULL; node=node->next)
-		printf("%s ", node->item);
+void printStack(Stack *s){
+	for(Node *node=s->top; node!=NULL; node=node->next)
+		printf("%s\n", node->item);
 
-	printf("\n");
 }
 
-void cleanStack(Stack *s){
+void clearStack(Stack *s){
 	while(!emptyStack(s))
 		removeItemStack(s);
 
 	free(s);
 }
 
-int stackSize(Stack* s){
+int stackSize(Stack *s){
 	int count=0;
 
-	for(Node* node=s->top; node!=NULL; node=node->next)
+	for(Node *node=s->top; node!=NULL; node=node->next)
 		count++;
 
 	return count;
+}
+
+char *returnItemStack(Stack *s, int count){
+	for(Node *node=s->top; node!=NULL; node=node->next){
+		int size = stackSize(s);
+		if(count == size){
+			exit(1);
+		}
+
+		if(count == 0){
+			return s->top;
+		}else{
+			return node->item;	
+		}
+	}
 }

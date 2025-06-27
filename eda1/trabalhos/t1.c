@@ -12,20 +12,20 @@ Queue* idQueue;
 
 //Prototypes 
 void menu(); 
-void produce(); 
-void distribute(); 
-char* generateId(); 
+int produce(); 
+void distribute(int guess); 
+char *generateId(); 
 void clearLine(int q); 
 void longString(long int tam, int TAM); 
 void clearScreen(); 
-void removeSpaces(char* s);
-void verifyFile(FILE* file, char &whichFunction, char &whichOption);
+void removeSpaces(char *s);
+void verifyFile(FILE *file, char *whichFunction, char *whichOption);
 
 int main(){ 
 	menu(); 
 
-	cleanStack(flavorStack);
-	cleanQueue(idQueue);
+	clearStack(flavorStack);
+	clearQueue(idQueue);
 
 	clearLine(2);
 	return 0; 
@@ -47,12 +47,12 @@ void menu(){
 			case 2:
 				clearLine(1);
 				int verify = emptyStack(flavorStack);
-				if(verify == 0){ //No meal boxes avalable
+				if(verify == 1){ //No meal boxes avalable
 					printf("There is no boxes yet\n");
 					exit(1);
 				}
 				printf("------DISTRIBUTE MEAL BOXES------\n");
-				distribute();
+				distribute(0);
 				break;
 			case 3 : 
 				exit(1);
@@ -65,9 +65,8 @@ void menu(){
 
 }
 
-void produce(){
-	char str[SIZE_FLAVORS];
-	char* flavorOptions[SIZE_FLAVORS]; 
+int produce(){
+	char str[SIZE_FLAVORS], *flavorOptions[SIZE_FLAVORS]; 
 	int count=0, guess=0;
 
 	flavorStack = createStack();
@@ -90,16 +89,20 @@ void produce(){
 	scanf("%d", &guess);
 	getchar();
 
-	for(int i=0; i<guess; i++)
+	for(int i=0; i<guess; ++i){ //guess determines the size of flavorStack
 		insertItemStack(flavorStack, flavorOptions[i%count]);	
+	}
 
 	printStack(flavorStack);
+	printf("%d\n", stackSize(flavorStack));
 
-	clearLine(2);
+	clearLine(1);
+
+	return guess;
 }
 
-void distribute(){
-	FILE* file1 = fopen("logMealBoxes.txt", 'w');
+void distribute(int guess){
+	FILE *file1 = fopen("logMealBoxes.txt", "w");
 	verifyFile(file1, "distribute()", "w");
 
 	srand(time(NULL));
@@ -108,23 +111,26 @@ void distribute(){
 
 	idQueue = createQueue();
 
-	for(int i=0; i<quantStudents; i++){
-		char* id = generateId();
+	for(int i=0; i<quantStudents; i++){ //quantStudents determines the size of idQueue
+		char *id = generateId();
 		insertItemQueue(idQueue, id);
 		free(id);
 	}	
 	
-	printQueue(idQueue); //@
-
-	//@
-			
+	printQueue(idQueue);
+	/*
+	if(guess < quantStudents){
+		for(int i=0; i<quantStudents; i++){
+			fprintf(file1, "%s -> %s\n", idQueue->item, flavorStack->item);
+		}
+	}*/
 
 	fclose(file1);
 	clearLine(2);
 }
 
-char* generateId(){
-	char* id = (char*) malloc(10);
+char *generateId(){
+	char *id = (char*) malloc(10);
 	if(id == NULL){
 		perror("Fail to allocate memory for string in generateId()");		
 		exit(1);
@@ -156,7 +162,7 @@ void longString(long int len, int SIZE){
 
 void clearScreen(){ system("cls || clear"); }
 
-void removeSpaces(char* s){
+void removeSpaces(char *s){
 	int nonSpaceCount = 0;
 
 	for(int i=0; s[i]!='\0'; i++){
@@ -168,9 +174,10 @@ void removeSpaces(char* s){
 	s[nonSpaceCount] = '\0';
 }
 
-void verifyFile(FILE* file, char &whichFunction, char &whichOption){
+void verifyFile(FILE *file, char *whichFunction, char *whichOption){
 	if(!file){
-		perror("Fail to create file in %s in '%s' option", whichFunction, whichOption);
+		printf("Fail to create file in %s in '%s' option\n", whichFunction, whichOption);
+		perror("Error");
 		exit(1);
 	}
 }
