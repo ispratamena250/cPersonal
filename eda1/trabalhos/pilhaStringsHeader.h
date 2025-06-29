@@ -1,3 +1,7 @@
+/*
+* Autor: Isaac Menezes Pereira, 190088885
+*/
+
 #ifndef PILHA_STRINGS_HEADER_H
 #define PILHA_STRINGS_HEADER_H
 

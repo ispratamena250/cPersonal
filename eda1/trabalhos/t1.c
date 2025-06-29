@@ -1,3 +1,7 @@
+/*
+* Autor: Isaac Menezes Pereira, 190088885
+*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
@@ -36,7 +40,7 @@ int main(){
 
 void menu(){ 
 	int op=0, verify=0, flag=1; 
-	
+
 	while(1){ 
 		printf("------MENU------\n");
 		printf("Options:\n1 - Produce meal boxes\n2 - Distribute meal boxes\n3 - Close system\nChoice: "); 
@@ -110,6 +114,7 @@ void produce(){
 int distribute(){
 	FILE *file1 = fopen("logMealBoxes.txt", "w");
 	verifyFile(file1, "distribute()", "w");
+	fprintf(file1, "Autor: Isaac Menezes Pereira, 190088885\n\n");
 
 	srand(time(NULL));
 	int jocker=200, suePrejudice=0, mealBoxPrejudice=0, profit=0, flag=0;

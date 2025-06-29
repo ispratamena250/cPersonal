@@ -1,3 +1,7 @@
+/*
+* Autor: Isaac Menezes Pereira, 190088885
+*/
+
 #ifndef FILA_STRING_HEADER_H
 #define FILA_STRING_HEADER_H
 
