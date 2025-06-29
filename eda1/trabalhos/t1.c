@@ -31,7 +31,6 @@ int main(){
 	clearStack(flavorStack);
 	clearQueue(idQueue);
 
-	breakLine(2);
 	return 0; 
 } 
 
@@ -75,7 +74,7 @@ void menu(){
 				break;
 		}
 	}
-
+	breakLine(2);
 }
 
 void produce(){
