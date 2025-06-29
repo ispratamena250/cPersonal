@@ -161,6 +161,7 @@ int distribute(){
 		fprintf(file1, "Faliu!!");
 	}else{
 		fprintf(file1, "Deu lucro!!");
+		printf("\a");
 	}
 
 	fclose(file1);
