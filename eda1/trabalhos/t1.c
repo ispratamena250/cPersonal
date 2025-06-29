@@ -36,6 +36,7 @@ int main(){
 
 void menu(){ 
 	int op=0, verify=0, flag=1; 
+	
 	while(1){ 
 		printf("------MENU------\n");
 		printf("Options:\n1 - Produce meal boxes\n2 - Distribute meal boxes\n3 - Close system\nChoice: "); 
