@@ -111,10 +111,9 @@ int distribute(){
 	verifyFile(file1, "distribute()", "w");
 
 	srand(time(NULL));
-	int jocker=200;
+	int jocker=200, suePrejudice=0, mealBoxPrejudice=0, profit=0, flag=0;
 	int quantStudents = rand()%jocker;
 	float sue = (float)(rand()%(jocker*jocker)/jocker);
-	int suePrejudice=0, mealBoxPrejudice=0, profit=0, flag=0;
 
 	for(int i=0; i<quantStudents; i++){ //quantStudents determines the size of idQueue
 		char *id = generateId();
@@ -167,7 +166,7 @@ int distribute(){
 	fclose(file1);
 
 	breakLine(1);
-	
+
 	return flag; //This is for checking if you already distributed the boxes
 }
 
