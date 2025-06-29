@@ -7,32 +7,36 @@
 #include "filaStringsHeader.h"
 
 #define SIZE_FLAVORS 100 
-Stack* flavorStack;
-Queue* idQueue;
+Stack *flavorStack;
+Queue *idQueue;
+int guess=0;
+float mealBoxValue=0;
 
 //Prototypes 
 void menu(); 
-int produce(); 
-void distribute(int guess); 
+void produce(); 
+int distribute(); 
 char *generateId(); 
-void clearLine(int q); 
+void breakLine(int q); 
 void longString(long int tam, int TAM); 
-void clearScreen(); 
 void removeSpaces(char *s);
 void verifyFile(FILE *file, char *whichFunction, char *whichOption);
 
 int main(){ 
+	flavorStack = createStack();
+	idQueue = createQueue();
+
 	menu(); 
 
 	clearStack(flavorStack);
 	clearQueue(idQueue);
 
-	clearLine(2);
+	breakLine(2);
 	return 0; 
 } 
 
 void menu(){ 
-	int op = 0; 
+	int op=0, verify=0, flag=1; 
 	while(1){ 
 		printf("------MENU------\n");
 		printf("Options:\n1 - Produce meal boxes\n2 - Distribute meal boxes\n3 - Close system\nChoice: "); 
@@ -40,19 +44,28 @@ void menu(){
 		getchar(); 
 		switch(op){ 
 			case 1:
-				clearLine(1);
-				printf("------PRODUCE MEAL BOXES------\n");
-				produce();
+				breakLine(1);
+				verify = emptyStack(flavorStack);
+				if(verify == 1){
+					printf("------PRODUCE MEAL BOXES------\n");
+					produce();
+				}else{
+					printf("You already produced it!\n");
+				}
 				break;
 			case 2:
-				clearLine(1);
-				int verify = emptyStack(flavorStack);
-				if(verify == 1){ //No meal boxes avalable
-					printf("There is no boxes yet\n");
-					exit(1);
+				breakLine(1);
+				verify = emptyStack(flavorStack);
+				if(verify == 0){
+					if(flag == 1){
+						printf("------DISTRIBUTE MEAL BOXES------\nCheckout the log file!\n");
+						flag = distribute();
+					}else if(flag == 0){
+						printf("You already destributed it!\n");
+					}
+				}else{
+					printf("There is no boxes yet!\n");
 				}
-				printf("------DISTRIBUTE MEAL BOXES------\n");
-				distribute(0);
 				break;
 			case 3 : 
 				exit(1);
@@ -65,11 +78,9 @@ void menu(){
 
 }
 
-int produce(){
+void produce(){
 	char str[SIZE_FLAVORS], *flavorOptions[SIZE_FLAVORS]; 
-	int count=0, guess=0;
-
-	flavorStack = createStack();
+	int count=0;
 
 	printf("Total of flavors: ");
 	scanf("%d", &count);
@@ -84,49 +95,80 @@ int produce(){
 		flavorOptions[i] = (char*) malloc(strlen(str)+1);
 		strcpy(flavorOptions[i], str);
 	}
+	printf("Meal box value: ");
+	scanf("%f", &mealBoxValue);
 	
 	printf("Total production: ");
 	scanf("%d", &guess);
-	getchar();
 
-	for(int i=0; i<guess; ++i){ //guess determines the size of flavorStack
+	for(int i=0; i<guess; ++i) //guess determines the size of flavorStack
 		insertItemStack(flavorStack, flavorOptions[i%count]);	
-	}
 
-	printStack(flavorStack);
-	printf("%d\n", stackSize(flavorStack));
-
-	clearLine(1);
-
-	return guess;
+	breakLine(1);
 }
 
-void distribute(int guess){
+int distribute(){
 	FILE *file1 = fopen("logMealBoxes.txt", "w");
 	verifyFile(file1, "distribute()", "w");
 
 	srand(time(NULL));
 	int jocker=200;
 	int quantStudents = rand()%jocker;
-
-	idQueue = createQueue();
+	float sue = (float)(rand()%(jocker*jocker)/jocker);
+	int suePrejudice=0, mealBoxPrejudice=0, profit=0, flag=0;
 
 	for(int i=0; i<quantStudents; i++){ //quantStudents determines the size of idQueue
 		char *id = generateId();
 		insertItemQueue(idQueue, id);
 		free(id);
 	}	
-	
-	printQueue(idQueue);
-	/*
-	if(guess < quantStudents){
-		for(int i=0; i<quantStudents; i++){
-			fprintf(file1, "%s -> %s\n", idQueue->item, flavorStack->item);
+
+	if(guess > quantStudents){
+		for(int i=0; i<guess; i++){
+			if(i < quantStudents){
+				char *itemStack = getStackItemAt(flavorStack, i);
+				char *itemQueue = getQueueItemAt(idQueue, i);
+				fprintf(file1, "%s -> %s\n", itemStack, itemQueue);
+				profit++;
+			}else{
+				char *itemStack = getStackItemAt(flavorStack, i);
+				fprintf(file1, "%s -> prejuizo\n", itemStack);
+				mealBoxPrejudice++;
+			}
 		}
-	}*/
+	}else if(guess < quantStudents){
+		for(int i=0; i<quantStudents; i++){
+			if(i < guess){
+				char *itemStack = getStackItemAt(flavorStack, i);
+				char *itemQueue = getQueueItemAt(idQueue, i);
+				fprintf(file1, "%s -> %s\n", itemStack, itemQueue);
+				profit++;
+			}else{
+				char *itemQueue = getQueueItemAt(idQueue, i);
+				fprintf(file1, "%s -> aguarde o processo\n", itemQueue);
+				suePrejudice++;
+			}
+		}
+	}else{
+		for(int i=0; i<guess; i++){
+			char *itemStack = getStackItemAt(flavorStack, i);
+			char *itemQueue = getQueueItemAt(idQueue, i);
+			fprintf(file1, "%s -> %s\n", itemStack, itemQueue);
+			profit++;
+		}
+	}		
+
+	fprintf(file1, "\nMeal box prejudice: $%.2f\nSue prejudice: $%.2f\nProfit: $%.2f\n", mealBoxValue*mealBoxPrejudice, sue*suePrejudice, mealBoxValue*profit);
+	if((mealBoxValue*mealBoxPrejudice) + (sue*suePrejudice) > (mealBoxValue*profit)){
+		fprintf(file1, "Faliu!!");
+	}else{
+		fprintf(file1, "Deu lucro!!");
+	}
 
 	fclose(file1);
-	clearLine(2);
+
+	breakLine(1);
+	return flag; //This is for checking if you already distributed the boxes
 }
 
 char *generateId(){
@@ -147,7 +189,7 @@ char *generateId(){
 	return id;
 }
  
-void clearLine(int q){ 
+void breakLine(int q){ 
 	for(int i=0; i<q; i++)
 		printf("\n");
 }
@@ -155,12 +197,10 @@ void clearLine(int q){
 void longString(long int len, int SIZE){
 	if(len >= SIZE){
 		printf("Too long string!");
-		clearLine(2);
+		breakLine(2);
 		exit(1);
 	}
 }
-
-void clearScreen(){ system("cls || clear"); }
 
 void removeSpaces(char *s){
 	int nonSpaceCount = 0;

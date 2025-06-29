@@ -102,3 +102,20 @@ int queueSize(Queue *q){
 
 	return count;
 }
+
+char *getQueueItemAt(Queue *q, int index){
+	if(index < 0)	
+		return NULL;
+
+	Node *node = q->first;
+	int i=0;
+	while(node != NULL){
+		if(i == index)
+			return node->item;
+
+		node = node->next;
+		i++;
+	}
+
+	return NULL;
+}

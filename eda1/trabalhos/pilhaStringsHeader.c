@@ -95,17 +95,19 @@ int stackSize(Stack *s){
 	return count;
 }
 
-char *returnItemStack(Stack *s, int count){
-	for(Node *node=s->top; node!=NULL; node=node->next){
-		int size = stackSize(s);
-		if(count == size){
-			exit(1);
-		}
+char *getStackItemAt(Stack *s, int index){
+	if(index < 0)	
+		return NULL;
 
-		if(count == 0){
-			return s->top;
-		}else{
-			return node->item;	
-		}
+	Node *node = s->top;
+	int i=0;
+	while(node != NULL){
+		if(i == index)
+			return node->item;
+
+		node = node->next;
+		i++;
 	}
+
+	return NULL;
 }
