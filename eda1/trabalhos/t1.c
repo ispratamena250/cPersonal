@@ -167,6 +167,7 @@ int distribute(){
 	fclose(file1);
 
 	breakLine(1);
+	
 	return flag; //This is for checking if you already distributed the boxes
 }
 
