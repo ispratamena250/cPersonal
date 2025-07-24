@@ -1,26 +1,51 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <time.h>
 #include "ponderedGraph_adjacentMatrixHeader.h"
+#define MAX 100
+#define V 10
 
-#define TAM 5
+int visited[MAX];
+
+//Prototypes
+void dfs(Grafo g, int e);
 
 int main(){
     srand(time(NULL));
-    Grafo grafo = inicializaGrafo(TAM);
+   
+    Grafo g = inicializaGrafo(V);
 
-    for(int i=0; i<TAM; i++){
-        for(int j=0; j<TAM; j++){
+    memset(visited, 0, V*sizeof(visited[0]));
+
+    for(int i=0; i<V; i++){
+        for(int j=0; j<V; j++){
             int z = rand() % 100;
-            insereArcoGrafo(grafo, i, j, (z == 0 ? -1 : z));
+            insereArcoGrafo(g, i, j, z);
         }
     }
 
-    imprimeGrafo(grafo);
-    printf("\n");
-    imprimeMatrizAdjacencia(grafo);
-    liberaGrafo(grafo);
+    //imprimeGrafo(graph);
+    imprimeMatrizAdjacencia(g);
+    printf("\n\n");
+
+    int begin = 0;
+    printf("Vertice %d: ", begin);
+    dfs(g, begin);
+
+    liberaGrafo(g);
 
     printf("\n");
     return 0;
+}
+
+void dfs(Grafo g, int e){
+    visited[e] = 1;
+    printf("%d ", e);
+
+    for(int i=0; i<g->vertices; i++){
+        if(g->ponteiro[e][i] != 0 && visited[i] == 0){
+            dfs(g, i);
+        }
+    }
 }
