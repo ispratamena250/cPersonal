@@ -3,16 +3,24 @@
 #include <string.h>
 #include <time.h>
 #include "ponderedGraph_adjacentMatrixHeader.h"
+
 #define MAX 100
 #define V 10
-
 int visited[MAX];
 
+typedef struct grafo *Grafo;
+struct grafo{
+    int **ponteiro;
+    int vertices;
+    int arestas;
+};
+
 //Prototypes
-void dfs(Grafo g, int e);
+void dfs(Grafo g, int e, int x, int y);
 
 int main(){
     srand(time(NULL));
+    int x, y;
    
     Grafo g = inicializaGrafo(V);
 
@@ -25,13 +33,16 @@ int main(){
         }
     }
 
+    printf("End: ");
+    scanf("%d %d", &x, &y);
+
     //imprimeGrafo(graph);
     imprimeMatrizAdjacencia(g);
     printf("\n\n");
 
     int begin = 0;
     printf("Vertice %d: ", begin);
-    dfs(g, begin);
+    dfs(g, begin, x, y);
 
     liberaGrafo(g);
 
@@ -39,13 +50,19 @@ int main(){
     return 0;
 }
 
-void dfs(Grafo g, int e){
+void dfs(Grafo g, int e, int x, int y){
+    int w=0;
     visited[e] = 1;
     printf("%d ", e);
 
     for(int i=0; i<g->vertices; i++){
         if(g->ponteiro[e][i] != 0 && visited[i] == 0){
-            dfs(g, i);
+            dfs(g, i, x, y);
+            w += g->ponteiro[e][i];
+            if(e == x && i == y){
+                printf("found");
+                //envia w para o vetor com os pesos de cada caminho válido
+            }
         }
     }
 }
