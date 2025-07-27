@@ -61,7 +61,7 @@ void imprimeMatrizAdjacencia(Grafo g){
     for(int i=0; i<g->vertices; i++){
         printf("\n");
         for(int j=0; j<g->vertices; j++){
-            printf("%d\t", g->ponteiro[i][j]);
+            printf("%d|%d;%d\t", g->ponteiro[i][j], i, j);
         }
     }
 }

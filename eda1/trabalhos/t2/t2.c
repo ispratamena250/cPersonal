@@ -6,7 +6,7 @@
 
 #define MAX 100
 #define V 10
-int visited[MAX];
+int visited[MAX], weights[V*V], w=0; //talvez, weights precise ser alocado dinamicamente
 
 typedef struct grafo *Grafo;
 struct grafo{
@@ -16,11 +16,13 @@ struct grafo{
 };
 
 //Prototypes
-void dfs(Grafo g, int e, int x, int y);
+void dfs(Grafo g, int e, int target);
+void jumpLine(int z);
 
 int main(){
     srand(time(NULL));
-    int x, y;
+    //int x, y;
+    int target=0;
    
     Grafo g = inicializaGrafo(V);
 
@@ -34,35 +36,70 @@ int main(){
     }
 
     printf("End: ");
-    scanf("%d %d", &x, &y);
+    //scanf("%d %d", &x, &y);
+    scanf("%d", &target);
+    //printf("%d %d", x, y);
+    printf("%d", target);
+    jumpLine(2);
+
+    printf("Visited @1:\n");
+    for(int i=0; i<MAX; i++){
+        printf("%d|%d ", visited[i], i);
+    }
+
+    jumpLine(1);
 
     //imprimeGrafo(graph);
     imprimeMatrizAdjacencia(g);
-    printf("\n\n");
+    jumpLine(2);
 
     int begin = 0;
     printf("Vertice %d: ", begin);
-    dfs(g, begin, x, y);
+    dfs(g, begin, target-2); //@
+    
+    jumpLine(2);
+
+    printf("Weights:");
+    jumpLine(1);
+    for(int i=0; i<V*V; i++){
+        printf("%d|%d ", weights[i], i);
+    }
+
+    jumpLine(2);
+
+    printf("Visited @2:\n");
+    for(int i=0; i<MAX; i++){
+        printf("%d|%d ", visited[i], i);
+    }
 
     liberaGrafo(g);
 
-    printf("\n");
+    jumpLine(1);
     return 0;
 }
 
-void dfs(Grafo g, int e, int x, int y){
-    int w=0;
+void dfs(Grafo g, int e, int target){
     visited[e] = 1;
     printf("%d ", e);
 
     for(int i=0; i<g->vertices; i++){
         if(g->ponteiro[e][i] != 0 && visited[i] == 0){
-            dfs(g, i, x, y);
+            dfs(g, i, target);
             w += g->ponteiro[e][i];
-            if(e == x && i == y){
-                printf("found");
+            printf("\nw%d\telement(%d, %d)%d", w, e, i, g->ponteiro[e][i]);
+            //weights[i] = w; //@ precisamos dessa linha?
+            if(e == target){
+                //printf("found%d ", i);
                 //envia w para o vetor com os pesos de cada caminho válido
+                weights[i] = w;
+            }else{
+                weights[i] = -1;
             }
         }
     }
+}
+
+void jumpLine(int z){
+    for(int i=0; i<z; i++)
+        printf("\n");
 }
