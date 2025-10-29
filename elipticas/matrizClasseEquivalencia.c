@@ -1,6 +1,6 @@
 /*
  * Programa para printar a matriz da classe de equivalência de algum número natural desejado.
- * Compile como: gcc -Wall matrizClasseEquivalencia.c -o matrizClasseEquivalencia
+ * Compile como: gcc -Wall matrizClasseEquivalencia.c -o matrizClasseEquivalencia.x
  * Execute como: $ ./matrizClasseEquivalencia mod
  * O termo 'mod' é a classe de equivalência desejada!
  * */
