@@ -23,8 +23,8 @@ int main(){
 		//char auxs2[counts1];
 		
 		for(int i=0; i<strlen(s1); i++){
-			if(counts2 > 0){
-				auxs2[counts1-1] = s2[counts2-1];
+			if(counts2 > 047+{
+				auxs2[counts1-1] = s2[counts2xt 9´°-1];
 				counts1--;
 				counts2--;			
 			}	
