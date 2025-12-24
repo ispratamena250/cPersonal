@@ -1,6 +1,6 @@
 /*
 * Euclidian Algorithm without '%'
-* Compile assim: $ gcc -Wall euclidianAlgorithmSemMod.c -o euclidianAlgorithmSemMod
+* Compile assim: $ gcc -Wall euclidianAlgorithmSemMod.c -o euclidianAlgorithmSemMod.x
 */
 #include <stdio.h>
 #include <stdlib.h>
